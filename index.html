@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071018">
+  <meta name="description" content="Tour de Mars — an interactive NASA Space Apps Challenge 2026 project exploring Mars through planetary data, field notes, a Mars atlas and the MarsWalk route-planning prototype.">
+  <title>Tour de Mars — Explore. Navigate. Discover.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+<header class="site-header" id="top">
+  <div class="shell navbar">
+    <a class="brand" href="index.html" aria-label="Tour de Mars home">
+      <img class="brand-mark brand-mark-astronaut" src="assets/cat-astronaut.png" alt="Tour de Mars cat astronaut emblem">
+      <span class="brand-name">Tour de Mars</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="navlinks" id="navlinks" aria-label="Main navigation">
+      <a class="active" href="#top">Home</a>
+      <a href="#places">Explore</a>
+      <a href="#atlas">Atlas</a>
+      <a href="live-map.html">NASA App</a>
+      <a href="marswalk.html">MarsWalk</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-bg" role="img" aria-label="Cat astronaut overlooking a sunlit Martian landscape"></div>
+    <div class="hero-shade"></div>
+    <a class="hero-space-apps" href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener" aria-label="NASA Space Apps Challenge official website">
+      <img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge">
+    </a>
+    <div class="shell hero-inner">
+      <div class="hero-copy reveal">
+        <div class="eyebrow hero-eyebrow">Interplanetary Survival Guide · Martian Map</div>
+        <h1 id="hero-title">Tour de <span>Mars</span></h1>
+        <p class="hero-sub">Explore. Navigate. Discover.</p>
+        <p class="hero-intro">A planetary exploration experience that connects Mars science, mapped terrain and an illustrative human MarsWalk planning workflow.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#places"><span class="button-icon">↗</span>Explore Mars</a>
+          <a class="button ghost" href="marswalk.html">Enter MarsWalk</a>
+          <a class="hero-atlas-link" href="#atlas">Open interactive atlas →</a>
+        </div>
+      </div>
+      <a class="scroll-hint" href="#mission">Scroll to explore <span>⌄</span></a>
+    </div>
+  </section>
+
+  <section class="section mission-section" id="mission">
+    <div class="shell mission-grid">
+      <div class="mission-copy reveal">
+        <div class="eyebrow">Our Mission</div>
+        <h2>From planetary data to better exploration decisions.</h2>
+        <p>Tour de Mars brings mapping context, terrain awareness, scientific targets, route choices and a visible return-to-base constraint into one coherent exploration story. MarsWalk is a research prototype, not an operational navigation system.</p>
+        <a class="text-link" href="#marswalk">See the MarsWalk concept <span>→</span></a>
+      </div>
+      <div class="mission-visual reveal"><div class="mission-photo"></div></div>
+      <div class="feature-list reveal" aria-label="Project features">
+        <div class="feature-row"><span class="feature-icon">◌</span><div><b>Planetary Data</b><small>NASA mission imagery, terrain and science sources are documented throughout the project.</small></div></div>
+        <div class="feature-row"><span class="feature-icon">⌖</span><div><b>Interactive Atlas</b><small>Explore Jezero, inspect coordinates and carry selected locations into the mission workflow.</small></div></div>
+        <div class="feature-row"><span class="feature-icon">♙</span><div><b>MarsWalk</b><small>Compare route objectives while keeping modeled distance, resources and return margin visible.</small></div></div>
+        <div class="feature-row"><span class="feature-icon">◎</span><div><b>Scientific Context</b><small>Four field notes connect locations to evidence, uncertainty, observations and references.</small></div></div>
+      </div>
+    </div>
+
+    <div class="shell project-stats reveal" aria-label="Project overview statistics">
+      <div class="stat"><strong>5+</strong><span>NASA data sources referenced</span></div>
+      <div class="stat"><strong>4</strong><span>featured Mars regions</span></div>
+      <div class="stat"><strong>∞</strong><span>mission stops in the selector</span></div>
+      <div class="stat"><strong>2026</strong><span>Space Apps challenge build</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="places">
+    <div class="shell">
+      <div class="section-title centered-title reveal">
+        <div class="eyebrow">Explore Mars</div>
+        <h2>Landscapes That<br>Make Us Wonder.</h2>
+      </div>
+      <div class="site-grid">
+        <a class="site-card reveal" href="site.html?site=jezero"><div class="photo nasa-photo" data-query="Jezero Crater Perseverance delta Mars"></div><div class="site-copy"><span class="num">01 / Ancient Lake Basin</span><h3>Jezero Crater</h3><p>Delta deposits, an ancient lake environment and the home of Perseverance.</p><span class="site-arrow">↗</span></div></a>
+        <a class="site-card reveal" href="site.html?site=gale"><div class="photo nasa-photo" data-query="Gale Crater Mount Sharp Curiosity Mars"></div><div class="site-copy"><span class="num">02 / Layers of Time</span><h3>Gale Crater</h3><p>Curiosity's long traverse reveals a layered record of changing environments.</p><span class="site-arrow">↗</span></div></a>
+        <a class="site-card reveal" href="site.html?site=olympus"><div class="photo" style="background-image:url('assets/olympus-mons.jpg')" role="img" aria-label="Olympus Mons"></div><div class="site-copy"><span class="num">03 / Planetary Giant</span><h3>Olympus Mons</h3><p>A volcanic landscape on a scale unlike anything on Earth.</p><span class="site-arrow">↗</span></div></a>
+        <a class="site-card reveal" href="site.html?site=valles"><div class="photo nasa-photo" data-query="Valles Marineris Mars canyon NASA"></div><div class="site-copy"><span class="num">04 / Geology in Extremes</span><h3>Valles Marineris</h3><p>A vast canyon system that turns planetary scale into something visible.</p><span class="site-arrow">↗</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section atlas-section" id="atlas">
+    <div class="shell atlas-card reveal">
+      <div class="atlas-visual nasa-photo" data-query="Jezero Crater orbital Mars NASA" aria-label="NASA Mars image used as Jezero atlas preview">
+        <div class="atlas-marker m1 active" data-site="jezero">01</div>
+        <div class="atlas-marker m2" data-site="gale">02</div>
+        <div class="atlas-marker m3" data-site="olympus">03</div>
+        <div class="atlas-marker m4" data-site="valles">04</div>
+      </div>
+      <div class="atlas-info">
+        <div class="eyebrow">Mars Atlas</div>
+        <h2 id="atlasTitle">Jezero Crater</h2>
+        <p id="atlasDesc">An ancient lake-basin landscape and the detailed study region for MarsWalk.</p>
+        <dl class="atlas-meta"><div><dt>Region Type</dt><dd id="atlasType">Impact crater / delta</dd></div><div><dt>Next Step</dt><dd id="atlasNext">Detailed Jezero exploration</dd></div></dl>
+        <div class="atlas-actions"><a id="atlasLink" class="button primary" href="site.html?site=jezero">Open Field Notes</a><a class="button ghost" href="live-map.html">Open Mars Atlas</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="marswalk">
+    <div class="shell marswalk-banner reveal">
+      <div class="marswalk-overlay"></div>
+      <div class="marswalk-copy">
+        <div class="eyebrow">The Heart of the Project</div>
+        <h2>MarsWalk</h2>
+        <p>Choose a base, select destinations, compare route objectives and review an illustrative mission plan with a visible resource reserve and return-to-base check.</p>
+        <div class="hero-actions"><a class="button primary" href="marswalk.html">Enter MarsWalk</a><a class="button ghost" href="live-map.html">Select Locations on NASA Map</a></div>
+      </div>
+      <img class="marswalk-cat" src="assets/cat-astronaut.png" alt="Tour de Mars cat astronaut">
+    </div>
+  </section>
+
+  <section class="section team-section" id="team">
+    <div class="shell">
+      <div class="section-title centered-title reveal"><div class="eyebrow">Meet Our Team</div><h2>Different Minds.<br>One Red Planet.</h2></div>
+      <div class="team-grid">
+        <article class="team-card reveal"><div class="avatar">01</div><h3>Name to be added</h3><div class="role">Team Lead</div><p>Individual message and contribution to be added.</p></article>
+        <article class="team-card reveal"><div class="avatar">02</div><h3>Name to be added</h3><div class="role">Researcher 1</div><p>Individual message and contribution to be added.</p></article>
+        <article class="team-card reveal"><div class="avatar">03</div><h3>Name to be added</h3><div class="role">Researcher 2</div><p>Individual message and contribution to be added.</p></article>
+        <article class="team-card reveal"><div class="avatar">04</div><h3>Name to be added</h3><div class="role">Developer 1</div><p>Individual message and contribution to be added.</p></article>
+        <article class="team-card reveal"><div class="avatar">05</div><h3>Name to be added</h3><div class="role">Developer 2</div><p>Individual message and contribution to be added.</p></article>
+        <article class="team-card reveal"><div class="avatar">06</div><h3>Name to be added</h3><div class="role">Content Strategy</div><p>Individual message and contribution to be added.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section space-apps-section" id="space-apps">
+    <div class="shell space-apps-card reveal">
+      <img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge">
+      <div><div class="eyebrow">Challenge Context</div><h2>Built as an independent Space Apps project.</h2><p>Tour de Mars is an independent student/team project for NASA Space Apps Challenge 2026. The site uses NASA and planetary-science resources for exploration and prototyping; it is not an official NASA product or a certified human-mission safety tool.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="shell footer-grid">
+    <a class="brand footer-brand" href="index.html"><img class="brand-mark brand-mark-astronaut" src="assets/cat-astronaut.png" alt=""><span class="brand-name">Tour de Mars</span></a>
+    <nav class="footer-nav" aria-label="Footer navigation"><a href="#places">Explore</a><a href="#atlas">Atlas</a><a href="live-map.html">NASA App</a><a href="marswalk.html">MarsWalk</a><a href="audit.html">Data Audit</a></nav>
+  </div>
+</footer>
+<script src="site.js"></script>
+</body>
+</html>

@@ -76,27 +76,8 @@ The Tour de Mars team emblem from the earlier prototype has been restored in the
 
 Team role labels follow the requested final wording. The supplied project materials do not contain actual email addresses, so the known team contact handles from the prior prototype are retained rather than inventing email addresses.
 
+## 2026-11-13: 240-second presentation candidate
 
-## Organizer-provided resource integration (2026-11-13)
+The project is aligned to the official NASA Space Apps Challenge **Interplanetary Survival Guide: Martian Map**. Open `marswalk.html?demo=1` or click **Load Demo EVA** inside MarsWalk for a preselected, runnable base-and-two-stops walkthrough. A coordinate-only rehearsal works when the official CTX DEM cannot be loaded, but is prominently marked **ILLUSTRATIVE / NOT TERRAIN-VERIFIED**; numerical slopes, hazards, and official passability are not fabricated. The existing NASA/USGS real terrain pathway remains intact.
 
-The latest organizer resource pack is now represented explicitly in the site:
-
-- **NASA/JPL Mars Trek** — remains the visual basemap source for Jezero HiRISE/CTX and global MOLA + HRSC imagery.
-- **USGS-NASA Planetary Geologic Mapping interactive maps** — linked from Atlas, MarsWalk, and the data audit as standardized geologic context. Geologic-map colors are not treated as elevation or route cost.
-- **NASA Curiosity proposed-path map** — used as a route-communication reference. MarsWalk now adds directional chevrons to its computed route and keeps numbered stops visible on the terrain backdrop.
-- **NASA Worldview** — explicitly labeled as an Earth-observation visualization reference only; it is not used as Mars data.
-- **Mars Perseverance Raw Images Gallery** — linked from the Jezero field note and resource section for surface-level context.
-
-Organizer resource URLs:
-
-- `https://trek.nasa.gov/mars/`
-- `https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars`
-- `https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/`
-- `https://worldview.earthdata.nasa.gov/`
-- `https://mars.nasa.gov/mars2020/multimedia/raw-images/`
-
-The organizer document also notes that NASA does not endorse non-U.S.-Government entities and that participants must comply with data-use parameters on non-U.S.-Government sites.
-
-### MarsWalk provenance UI refinement
-
-MarsWalk now makes the data/application boundary visible directly on the map: the selected visual basemap is labeled as **NASA/JPL Mars Trek**, terrain is labeled as the **USGS/NASA Mars 2020 CTX DTM**, and route/EVA analysis is labeled as the **Tour de Mars project model**. Direct links to NASA Mars Trek and USGS Mars geology are available from the map without replacing the custom MarsWalk experience.
+For your recording, see `DEMO_240_SECONDS.md`. For GitHub/Vercel guidance, see `DEPLOY_TEST_BRANCH.md`. This ZIP has **not** been pushed to `main` or `test` or deployed to either supplied Vercel domain.

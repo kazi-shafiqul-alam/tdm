@@ -4,6 +4,3 @@
 
 /* Shared visual refinement */
 img{border-radius:10px}.team-logo,.footer-space-apps img{border-radius:7px}
-
-.organizer-note{margin-top:18px}.ledger article:nth-child(5){grid-column:1/-1}
-@media(max-width:760px){.ledger article:nth-child(5){grid-column:auto}}

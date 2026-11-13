@@ -5,9 +5,6 @@
 **Tour de Mars** is a web-based Mars exploration and extravehicular activity (EVA) planning prototype by **Team 6bit_Larry**, developed for the **2026 NASA Space Apps Challenge**.
 
 **Challenge:** [Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)  
-**Source repository:** [kazi-shafiqul-alam/tdm](https://github.com/kazi-shafiqul-alam/tdm)  
-**Main deployment:** [tour-de-mars.vercel.app](https://tour-de-mars.vercel.app/)  
-**Test deployment:** [tour-de-mars-test.vercel.app](https://tour-de-mars-test.vercel.app/)
 
 > **Deployment note:** The team identified the `main` deployment as an older build and the `test` deployment as a beta build. Neither URL should be assumed to contain the latest locally prepared changes until the corresponding branch is updated and redeployed.
 

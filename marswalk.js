@@ -34,6 +34,7 @@
   const MAP_LAYERS = {
     hirise: {
       label: 'Jezero HiRISE controlled mosaic',
+      sourceShort: 'NASA/JPL Mars Trek · HiRISE',
       id: 'JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd',
       hardTemplate: 'https://trek.nasa.gov/tiles/Mars/EQ/JEZ_hirise_soc_006_orthoMosaic_25cm_Eqc_latTs0_lon0_first_dd/1.0.0/default/default028mm/{z}/{y}/{x}.png',
       minZoom: 0,
@@ -41,6 +42,7 @@
     },
     ctx: {
       label: 'Jezero CTX controlled mosaic',
+      sourceShort: 'NASA/JPL Mars Trek · CTX',
       id: 'JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0',
       hardTemplate: 'https://trek.nasa.gov/tiles/Mars/EQ/JEZ_ctx_B_soc_008_orthoMosaic_6m_Eqc_latTs0_lon0/1.0.0/default/default028mm/{z}/{y}/{x}.png',
       minZoom: 0,
@@ -48,6 +50,7 @@
     },
     mola: {
       label: 'MOLA / HRSC global context',
+      sourceShort: 'NASA/JPL Mars Trek · MOLA/HRSC',
       id: 'Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw',
       minZoom: 0,
       fallbackMax: 7,
@@ -275,7 +278,9 @@
       this.layer = MAP_LAYERS[key];
       this.template = this.layer.hardTemplate || null;
       this.maxNative = this.layer.fallbackMax;
-      $('#mapSource').textContent = this.layer.label;
+      $('#mapSource').textContent = `BASEMAP · ${this.layer.label} · NASA/JPL Mars Trek`;
+      const provenanceBasemap = $('#mapProvenanceBasemap');
+      if (provenanceBasemap) provenanceBasemap.textContent = this.layer.sourceShort || `NASA/JPL Mars Trek · ${this.layer.label}`;
       try {
         if (!this.template) {
           const caps = `https://trek.nasa.gov/tiles/Mars/EQ/${this.layer.id}/1.0.0/WMTSCapabilities.xml`;
@@ -464,6 +469,7 @@
       });
       ctx.stroke();
       ctx.restore();
+      drawRouteDirectionMarkers(ctx, map, route);
     }
 
     const points = [];
@@ -492,6 +498,39 @@
       ctx.fillStyle = '#ffffff'; ctx.fill();
       ctx.restore();
     }
+  }
+
+
+  function drawRouteDirectionMarkers(ctx, map, route) {
+    const path = route?.path || [];
+    if (path.length < 4) return;
+    const step = Math.max(8, Math.floor(path.length / 6));
+    ctx.save();
+    ctx.fillStyle = '#fff0dc';
+    ctx.strokeStyle = 'rgba(14,16,17,.9)';
+    ctx.lineWidth = 1.2;
+    for (let k = step; k < path.length - 1; k += step) {
+      const aLL = tileToLatLon(path[Math.max(0, k - 2)]);
+      const bLL = tileToLatLon(path[Math.min(path.length - 1, k + 2)]);
+      const a = map.latLonToScreen(aLL.lat, aLL.lon);
+      const b = map.latLonToScreen(bLL.lat, bLL.lon);
+      const x = (a.x + b.x) / 2, y = (a.y + b.y) / 2;
+      const ang = Math.atan2(b.y - a.y, b.x - a.x);
+      if (!Number.isFinite(ang)) continue;
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(ang);
+      ctx.beginPath();
+      ctx.moveTo(7, 0);
+      ctx.lineTo(-5, -4.5);
+      ctx.lineTo(-3, 0);
+      ctx.lineTo(-5, 4.5);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+    ctx.restore();
   }
 
   function updateCursorReadout(ll) {

@@ -25,7 +25,7 @@
       <article><span class="status real">REAL</span><h2>Mars imagery</h2><p>NASA/JPL Mars Trek serves the Jezero HiRISE and CTX controlled mosaics used as visual map context.</p><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noreferrer">NASA Mars Trek ↗</a></article>
       <article><span class="status real">REAL</span><h2>Elevation terrain</h2><p>The planner is designed around the USGS Mars 2020 CTX terrain-relative-navigation DTM at approximately 20 m posts.</p><a href="https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_hi_rise_and_ctx_digital_terrain_model_mosaic" target="_blank" rel="noreferrer">USGS Astrogeology source ↗</a></article>
       <article><span class="status modeled">MODELED</span><h2>Walking + oxygen</h2><p>Travel speed responds to signed terrain grade; oxygen consumption, reserve, dwell time, and base pace are adjustable mission-scenario assumptions.</p></article>
-      <article><span class="status context">CONTEXT</span><h2>Science interest</h2><p>The present build uses approximate named Jezero mission-interest anchors for route comparison. It does not claim measured CRISM mineral abundance.</p></article>
+      <article><span class="status context">CONTEXT</span><h2>Science interest</h2><p>The present build uses approximate Jezero mission-interest anchors only as a disclosed route preference. The organizer-provided USGS geologic maps are reference context and are not silently converted into mineral abundance or route cost.</p><a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noreferrer">USGS geologic maps ↗</a></article>
     </section>
 
     <section class="audit-section">
@@ -69,8 +69,20 @@
       </div>
     </section>
 
+    <section class="audit-section">
+      <div class="audit-section-head"><span>DATA / 06</span><h2>Organizer-provided official resources</h2></div>
+      <div class="ledger">
+        <article><div><span>NASA / JPL</span><h3>Mars Trek</h3></div><p>Used directly for the Jezero controlled HiRISE/CTX visual basemaps and global MOLA + HRSC Atlas context. Trek also exposes additional planetary products for future layer work.</p><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noreferrer">Open Mars Trek ↗</a></article>
+        <article><div><span>USGS / NASA</span><h3>Planetary Geologic Maps</h3></div><p>Used as the official standardized geologic-map reference. Tour de Mars links it for interpretation but does not treat geologic colors or unit boundaries as numerical elevation.</p><a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noreferrer">Open Mars maps ↗</a></article>
+        <article><div><span>NASA SCIENCE</span><h3>Curiosity route-map example</h3></div><p>Used as a communication reference for showing a traverse over terrain with annotated regions and route direction. MarsWalk’s Jezero path remains independently computed.</p><a href="https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/" target="_blank" rel="noreferrer">Open example ↗</a></article>
+        <article><div><span>NASA EARTHDATA</span><h3>Worldview</h3></div><p>Earth satellite-imagery explorer supplied in the resource pack. It is retained as a visualization reference only and is not used as Mars imagery, terrain, weather, or route data.</p><a href="https://worldview.earthdata.nasa.gov/" target="_blank" rel="noreferrer">Open Worldview ↗</a></article>
+        <article><div><span>NASA MARS 2020</span><h3>Perseverance raw images</h3></div><p>Ground-level Jezero imagery resource linked from the Jezero field note for visual cross-checking against the orbital context used in the planner.</p><a href="https://mars.nasa.gov/mars2020/multimedia/raw-images/" target="_blank" rel="noreferrer">Open raw gallery ↗</a></article>
+      </div>
+      <div class="callout-box organizer-note"><p><strong>Resource-use note.</strong> The organizer document also states that participants must follow the data-use parameters of non-U.S.-Government websites and that NASA does not endorse non-U.S.-Government entities. External references are therefore linked with their provenance kept explicit.</p></div>
+    </section>
+
     <section class="audit-section roadmap-audit">
-      <div class="audit-section-head"><span>DATA / 06</span><h2>What comes next</h2></div>
+      <div class="audit-section-head"><span>DATA / 07</span><h2>What comes next</h2></div>
       <div class="roadmap-grid">
         <div><b>CRISM</b><p>Replace contextual science anchors with verified, co-registered spectral summary parameters and visible no-data coverage.</p></div>
         <div><b>THEMIS</b><p>Add thermal inertia as a loose-surface / sand signal with clearly documented thresholds and uncertainty.</p></div>

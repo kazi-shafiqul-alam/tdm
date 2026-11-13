@@ -8,3 +8,14 @@
 
 /* Shared visual refinement */
 img{border-radius:10px}.mw-brand img{border-radius:7px}
+
+/* MarsWalk source-provenance refinement — official data stays distinct from TdM analysis */
+.map-provenance{position:absolute;z-index:12;right:10px;top:10px;width:min(290px,calc(100% - 20px));padding:10px 11px 9px;background:rgba(7,9,10,.88);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);box-shadow:0 12px 32px rgba(0,0,0,.24);pointer-events:auto}
+.provenance-head{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-size:6px;letter-spacing:.15em;color:#9ba4a7}.provenance-head i{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 9px rgba(126,203,138,.65)}
+.provenance-row{display:grid;grid-template-columns:55px 1fr;gap:8px;align-items:baseline;padding:4px 0;border-top:1px solid rgba(255,255,255,.07)}.provenance-row small{font-size:6px;letter-spacing:.11em;color:#697378}.provenance-row b{font-size:7px;line-height:1.35;font-weight:600;color:#c8cecf}.provenance-row.model b{color:#efb397}
+.provenance-links{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}.provenance-links a{display:inline-flex;align-items:center;min-height:25px;padding:0 7px;border:1px solid #344047;background:#0e1315;color:#aeb7ba;text-decoration:none;font-size:6px;letter-spacing:.08em}.provenance-links a:hover{border-color:#80503d;color:#ffd0ba;background:#20140f}
+.lineage-flow{display:grid;gap:5px;margin:0 0 13px}.lineage-flow>div{border:1px solid #2c373d;background:#0a0e10;padding:9px 10px}.lineage-flow>div.project-step{border-color:#60402f;background:#160f0c}.lineage-flow small{display:block;font-size:6px;letter-spacing:.12em;color:#697378;margin-bottom:3px}.lineage-flow b{display:block;font-size:10px;color:#d5d9da}.lineage-flow span{display:block;margin-top:3px;font-size:7px;line-height:1.45;color:#747e82}.lineage-flow>i{height:7px;display:grid;place-items:center;font-style:normal;font-size:8px;color:#5f6a6f}
+.provenance-note{padding:9px 10px;border-left:2px solid var(--green);background:#0a110d;color:#8d9d92}.audit-link.source-primary{border-color:#674330;color:#f1baa2;background:#1b120e}
+@media(max-width:1180px){.map-provenance{width:245px}.provenance-row{grid-template-columns:49px 1fr}.provenance-links a{font-size:5.5px}}
+@media(max-width:950px){.map-provenance{top:9px;right:9px;width:250px}}
+@media(max-width:600px){.map-provenance{top:8px;right:8px;width:225px;padding:8px}.provenance-row{grid-template-columns:45px 1fr}.provenance-links{display:grid;grid-template-columns:1fr}.provenance-links a{justify-content:center}.map-provenance .provenance-row.model{display:none}}

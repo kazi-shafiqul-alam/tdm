@@ -1,5 +1,9 @@
 # Tour de Mars 🪐
 
+<p align="center">
+  <img src="./favicon.png" alt="Tour de Mars astronaut cat mascot" width="240" />
+</p>
+
 ### Explore Mars. Plan the walk. Understand the risk.
 
 **Tour de Mars** is a web-based Mars exploration and extravehicular activity (EVA) planning prototype by **Team 6bit_Larry**, developed for the **2026 NASA Space Apps Challenge**.

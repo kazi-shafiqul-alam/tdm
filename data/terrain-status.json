@@ -1,9 +1,0 @@
-{
-  "activeTerrain": "synthetic_fallback",
-  "reason": "The official USGS GeoTIFF could not be downloaded inside the ChatGPT execution sandbox because the local runtime could not resolve either planetarymaps.usgs.gov or the verified USGS Astrogeology/ASC S3 mirror. Run pipeline/build_all.py in a networked environment to generate data/terrain_grid.json and data/terrain_hillshade.png.",
-  "selectedSource": "USGS Mars 2020 Terrain Relative Navigation CTX DTM Mosaic",
-  "doi": "10.5066/P906QQT8",
-  "realGridExpectedPath": "data/terrain_grid.json",
-  "officialGeoTiffBundled": false,
-  "pipelineImplemented": true
-}

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080908">
+  <meta name="description" content="Tour de Mars data and assumptions audit — what is measured, modeled, contextual, and planned for future integration.">
+  <title>Data Audit — Tour de Mars</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="audit.css">
+</head>
+<body class="audit-body">
+  <header class="topbar audit-topbar">
+    <a class="wordmark" href="index.html"><img class="team-logo" src="assets/team-logo.png" alt="Tour de Mars team emblem"><span class="wordmark-text"><b>TOUR DE MARS</b><small>/ DATA AUDIT</small></span></a>
+    <nav class="audit-nav"><a href="index.html">Overview</a><a class="nav-cta" href="marswalk.html">Launch MarsWalk ↗</a></nav>
+  </header>
+
+  <main class="audit-main shell">
+    <section class="audit-hero">
+      <div><span class="audit-index">DATA / 01</span><h1>What the map knows.<br><em>And what it assumes.</em></h1></div>
+      <p>Tour de Mars separates visual context, measured terrain, modeled planning quantities, and future data layers. The goal is reproducibility rather than a convincing-looking black box.</p>
+    </section>
+
+    <section class="audit-status-grid">
+      <article><span class="status real">REAL</span><h2>Mars imagery</h2><p>NASA/JPL Mars Trek serves the Jezero HiRISE and CTX controlled mosaics used as visual map context.</p><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noreferrer">NASA Mars Trek ↗</a></article>
+      <article><span class="status real">REAL</span><h2>Elevation terrain</h2><p>The planner is designed around the USGS Mars 2020 CTX terrain-relative-navigation DTM at approximately 20 m posts.</p><a href="https://astrogeology.usgs.gov/search/map/mars_2020_terrain_relative_navigation_hi_rise_and_ctx_digital_terrain_model_mosaic" target="_blank" rel="noreferrer">USGS Astrogeology source ↗</a></article>
+      <article><span class="status modeled">MODELED</span><h2>Walking + oxygen</h2><p>Travel speed responds to signed terrain grade; oxygen consumption, reserve, dwell time, and base pace are adjustable mission-scenario assumptions.</p></article>
+      <article><span class="status context">CONTEXT</span><h2>Science interest</h2><p>The present build uses approximate Jezero mission-interest anchors only as a disclosed route preference. The organizer-provided USGS geologic maps are reference context and are not silently converted into mineral abundance or route cost.</p><a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noreferrer">USGS geologic maps ↗</a></article>
+    </section>
+
+    <section class="audit-section">
+      <div class="audit-section-head"><span>DATA / 02</span><h2>The MarsWalk terrain pipeline</h2></div>
+      <div class="pipeline">
+        <div><b>01</b><strong>Official CTX DTM</strong><p>Open the Mars 2020 Jezero elevation GeoTIFF from USGS/PDS or from a local copy.</p></div>
+        <div><b>02</b><strong>20 m working surface</strong><p>Reproject the DEM into the local Jezero planning coordinate system used by MarsWalk.</p></div>
+        <div><b>03</b><strong>100 m cells</strong><p>Summarize elevation coverage, p90 slope, steep fraction, and local elevation relief.</p></div>
+        <div><b>04</b><strong>Passability</strong><p>Require at least 80% valid elevation coverage and a cell p90 slope no greater than 25°.</p></div>
+        <div><b>05</b><strong>Terrain cost</strong><p>Blend normalized p90 slope (80%) with normalized within-cell relief (20%) for a transparent planning score.</p></div>
+        <div><b>06</b><strong>Route + walkback</strong><p>Route through neighboring passable cells and verify the configured oxygen reserve can still cover the fastest modeled path home.</p></div>
+      </div>
+    </section>
+
+    <section class="audit-section two-col">
+      <div>
+        <div class="audit-section-head"><span>DATA / 03</span><h2>Route objectives</h2></div>
+        <table class="audit-table">
+          <thead><tr><th>Mode</th><th>What it rewards</th><th>Extra limit</th></tr></thead>
+          <tbody>
+            <tr><td>Fast</td><td>Lowest modeled travel time</td><td>Hard passability only</td></tr>
+            <tr><td>Safe</td><td>Time with a strong terrain-cost penalty</td><td>18° p90 slope cap</td></tr>
+            <tr><td>Balanced</td><td>Time + terrain cost + light science context</td><td>22° p90 slope cap</td></tr>
+            <tr><td>Science</td><td>Science-context preference without removing terrain penalties</td><td>23.5° p90 slope cap</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="audit-section-head"><span>DATA / 04</span><h2>Life-support disclosure</h2></div>
+        <div class="callout-box"><p>MarsWalk’s oxygen numbers are <strong>planning assumptions, not NASA flight rules, medical guidance, or a validated PLSS model.</strong> The interface exposes capacity, reserve, walking consumption, dwell consumption, dwell duration, and base pace so a judge can see and change every assumption.</p><p>The walkback test is structural: at each sampled route cell, oxygen already used + oxygen needed for the fastest modeled return + reserve must not exceed capacity.</p></div>
+      </div>
+    </section>
+
+    <section class="audit-section">
+      <div class="audit-section-head"><span>DATA / 05</span><h2>Provenance ledger</h2></div>
+      <div class="ledger">
+        <article><div><span>NASA/JPL</span><h3>Mars Trek</h3></div><p>Jezero controlled orbital mosaics and global context. Used only as the interactive visual basemap; image brightness is never converted to elevation.</p><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noreferrer">Open source ↗</a></article>
+        <article><div><span>USGS / NASA MRO</span><h3>Mars 2020 CTX DTM</h3></div><p><code>JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif</code>. Used for elevation, slope, relief, passability, route timing, and terrain cost.</p><a href="https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif" target="_blank" rel="noreferrer">GeoTIFF ↗</a></article>
+        <article><div><span>PROJECT MODEL</span><h3>100 m route graph</h3></div><p>Generated by Tour de Mars from the CTX DTM. Each cell stores elevation, p90 slope, steep fraction, relief, coverage, terrain cost, contextual science score, and passability.</p></article>
+        <article><div><span>PROJECT MODEL</span><h3>Life support</h3></div><p>User-specified scenario inputs. The project does not present these values as official NASA standards.</p></article>
+      </div>
+    </section>
+
+    <section class="audit-section">
+      <div class="audit-section-head"><span>DATA / 06</span><h2>Organizer-provided official resources</h2></div>
+      <div class="ledger">
+        <article><div><span>NASA / JPL</span><h3>Mars Trek</h3></div><p>Used directly for the Jezero controlled HiRISE/CTX visual basemaps and global MOLA + HRSC Atlas context. Trek also exposes additional planetary products for future layer work.</p><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noreferrer">Open Mars Trek ↗</a></article>
+        <article><div><span>USGS / NASA</span><h3>Planetary Geologic Maps</h3></div><p>Used as the official standardized geologic-map reference. Tour de Mars links it for interpretation but does not treat geologic colors or unit boundaries as numerical elevation.</p><a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noreferrer">Open Mars maps ↗</a></article>
+        <article><div><span>NASA SCIENCE</span><h3>Curiosity route-map example</h3></div><p>Used as a communication reference for showing a traverse over terrain with annotated regions and route direction. MarsWalk’s Jezero path remains independently computed.</p><a href="https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/" target="_blank" rel="noreferrer">Open example ↗</a></article>
+        <article><div><span>NASA EARTHDATA</span><h3>Worldview</h3></div><p>Earth satellite-imagery explorer supplied in the resource pack. It is retained as a visualization reference only and is not used as Mars imagery, terrain, weather, or route data.</p><a href="https://worldview.earthdata.nasa.gov/" target="_blank" rel="noreferrer">Open Worldview ↗</a></article>
+        <article><div><span>NASA MARS 2020</span><h3>Perseverance raw images</h3></div><p>Ground-level Jezero imagery resource linked from the Jezero field note for visual cross-checking against the orbital context used in the planner.</p><a href="https://mars.nasa.gov/mars2020/multimedia/raw-images/" target="_blank" rel="noreferrer">Open raw gallery ↗</a></article>
+      </div>
+      <div class="callout-box organizer-note"><p><strong>Resource-use note.</strong> The organizer document also states that participants must follow the data-use parameters of non-U.S.-Government websites and that NASA does not endorse non-U.S.-Government entities. External references are therefore linked with their provenance kept explicit.</p></div>
+    </section>
+
+    <section class="audit-section roadmap-audit">
+      <div class="audit-section-head"><span>DATA / 07</span><h2>What comes next</h2></div>
+      <div class="roadmap-grid">
+        <div><b>CRISM</b><p>Replace contextual science anchors with verified, co-registered spectral summary parameters and visible no-data coverage.</p></div>
+        <div><b>THEMIS</b><p>Add thermal inertia as a loose-surface / sand signal with clearly documented thresholds and uncertainty.</p></div>
+        <div><b>MEDA</b><p>Add replayed Perseverance weather conditions, explicitly labeled as historical rather than live.</p></div>
+        <div><b>Human factors</b><p>Replace the simplified walking/oxygen scenario with a validated suited metabolic and life-support model if appropriate data become available.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="shell footer-grid"><div><a class="wordmark footer-mark" href="index.html"><img class="team-logo footer-team-logo" src="assets/team-logo.png" alt="Tour de Mars team emblem"><span class="wordmark-text"><b>TOUR DE MARS</b><small>2026</small></span></a><p>Independent NASA Space Apps Challenge project. Not an official NASA product and not certified for human-mission navigation.</p></div><a class="footer-space-apps" href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer"><img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge"></a><div class="footer-links"><a href="index.html">Home</a><a href="marswalk.html">MarsWalk</a></div></div></footer>
+</body>
+</html>

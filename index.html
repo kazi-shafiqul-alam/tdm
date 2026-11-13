@@ -2,174 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#071018">
-  <meta name="description" content="Tour de Mars — an interactive NASA Space Apps Challenge 2026 project exploring Mars through planetary data, field notes, a Mars atlas and the MarsWalk route-planning prototype.">
-  <title>Tour de Mars — Explore. Navigate. Discover.</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080908">
+  <meta name="description" content="Tour de Mars — a NASA Space Apps Challenge 2026 project combining real Mars mapping, terrain-aware MarsWalk planning, science context, and transparent data provenance.">
+  <title>Tour de Mars — Mission Control for a Marswalk</title>
+  <link rel="stylesheet" href="app.css">
+  <script defer src="app.js"></script>
   <link rel="icon" type="image/png" href="./favicon.png">
 </head>
 <body>
-<header class="site-header" id="top">
-  <div class="shell navbar">
-    <a class="brand" href="index.html" aria-label="Tour de Mars home">
-      <img class="brand-mark brand-mark-astronaut" src="assets/cat-astronaut.png" alt="Tour de Mars cat astronaut emblem">
-      <span class="brand-name">Tour de Mars</span>
+  <header class="topbar" id="top">
+    <a class="wordmark" href="#top" aria-label="Tour de Mars home">
+      <img class="team-logo" src="assets/team-logo.png" alt="Tour de Mars team emblem">
+      <span class="wordmark-text"><b>TOUR DE MARS</b><small>2026</small></span>
     </a>
-    <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰</button>
-    <nav class="navlinks" id="navlinks" aria-label="Main navigation">
-      <a class="active" href="#top">Home</a>
-      <a href="#places">Explore</a>
-      <a href="#atlas">Atlas</a>
-      <a href="live-map.html">NASA App</a>
-      <a href="marswalk.html">MarsWalk</a>
+    <button class="menu" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">MENU</button>
+    <nav id="nav" aria-label="Primary navigation">
+      <a href="#brief">Mission</a><a href="#layers">Layers</a><a href="atlas.html">Atlas</a><a href="#field-notes">Field Notes</a><a href="#resources">Resources</a><a href="#team">Team</a><a href="data-audit.html">Data</a>
+      <a class="space-apps-link" href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer" aria-label="NASA Space Apps Challenge official website"><img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge"></a>
+      <a class="nav-cta" href="marswalk.html">Launch MarsWalk <span>↗</span></a>
     </nav>
-  </div>
-</header>
+  </header>
 
-<main>
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="hero-bg" role="img" aria-label="Cat astronaut overlooking a sunlit Martian landscape"></div>
-    <div class="hero-shade"></div>
-    <a class="hero-space-apps" href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener" aria-label="NASA Space Apps Challenge official website">
-      <img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge">
-    </a>
-    <div class="shell hero-inner">
-      <div class="hero-copy reveal">
-        <div class="eyebrow hero-eyebrow">Interplanetary Survival Guide · Martian Map</div>
-        <h1 id="hero-title">Tour de <span>Mars</span></h1>
-        <p class="hero-sub">Explore. Navigate. Discover.</p>
-        <p class="hero-intro">A planetary exploration experience that connects Mars science, mapped terrain and an illustrative human MarsWalk planning workflow.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#places"><span class="button-icon">↗</span>Explore Mars</a>
-          <a class="button ghost" href="marswalk.html">Enter MarsWalk</a>
-          <a class="hero-atlas-link" href="#atlas">Open interactive atlas →</a>
+  <main>
+    <section class="hero">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-vignette"></div>
+      <div class="hero-gridline" aria-hidden="true"></div>
+      <div class="hero-content shell">
+        <div class="hero-kicker reveal">INTERPLANETARY SURVIVAL GUIDE · MARTIAN MAP</div>
+        <h1 class="reveal">A map for the<br><em>walk after landing.</em></h1>
+        <div class="hero-lower reveal">
+          <p>Tour de Mars turns orbital imagery, elevation data, mission context, and an explicit life-support reserve into one planning experience for a future Marswalk.</p>
+          <div class="hero-actions"><a class="button light" href="marswalk.html">Enter mission control</a><a class="button line" href="#brief">Read the brief</a></div>
         </div>
       </div>
-      <a class="scroll-hint" href="#mission">Scroll to explore <span>⌄</span></a>
-    </div>
-  </section>
-
-  <section class="section mission-section" id="mission">
-    <div class="shell mission-grid">
-      <div class="mission-copy reveal">
-        <div class="eyebrow">Our Mission</div>
-        <h2>From planetary data to better exploration decisions.</h2>
-        <p>Tour de Mars brings mapping context, terrain awareness, scientific targets, route choices and a visible return-to-base constraint into one coherent exploration story. MarsWalk is a research prototype, not an operational navigation system.</p>
-        <a class="text-link" href="#marswalk">See the MarsWalk concept <span>→</span></a>
+      <div class="hero-status">
+        <span><i></i>JEZERO / MARS</span><span>18.44° N · 77.45° E</span><span>REAL MAP · REAL TERRAIN PIPELINE</span>
       </div>
-      <div class="mission-visual reveal"><div class="mission-photo"></div></div>
-      <div class="feature-list reveal" aria-label="Project features">
-        <div class="feature-row"><span class="feature-icon">◌</span><div><b>Planetary Data</b><small>NASA mission imagery, terrain and science sources are documented throughout the project.</small></div></div>
-        <div class="feature-row"><span class="feature-icon">⌖</span><div><b>Interactive Atlas</b><small>Explore Jezero, inspect coordinates and carry selected locations into the mission workflow.</small></div></div>
-        <div class="feature-row"><span class="feature-icon">♙</span><div><b>MarsWalk</b><small>Compare route objectives while keeping modeled distance, resources and return margin visible.</small></div></div>
-        <div class="feature-row"><span class="feature-icon">◎</span><div><b>Scientific Context</b><small>Four field notes connect locations to evidence, uncertainty, observations and references.</small></div></div>
-      </div>
-    </div>
+    </section>
 
-    <div class="shell project-stats reveal" aria-label="Project overview statistics">
-      <div class="stat"><strong>5+</strong><span>NASA data sources referenced</span></div>
-      <div class="stat"><strong>4</strong><span>featured Mars regions</span></div>
-      <div class="stat"><strong>∞</strong><span>mission stops in the selector</span></div>
-      <div class="stat"><strong>2026</strong><span>Space Apps challenge build</span></div>
-    </div>
-  </section>
-
-  <section class="section" id="places">
-    <div class="shell">
-      <div class="section-title centered-title reveal">
-        <div class="eyebrow">Explore Mars</div>
-        <h2>Landscapes That<br>Make Us Wonder.</h2>
+    <section class="manifesto shell" id="brief">
+      <div class="manifesto-index">01 / MISSION BRIEF</div>
+      <div class="manifesto-copy reveal">
+        <p class="display-line">The first Mars explorers will not need another pretty map.</p>
+        <p class="display-line muted">They will need a map that explains <span>where they can go, what the ground costs, what is worth seeing, and whether they can still get home.</span></p>
       </div>
-      <div class="site-grid">
-        <a class="site-card reveal" href="site.html?site=jezero"><div class="photo nasa-photo" data-query="Jezero Crater Perseverance delta Mars"></div><div class="site-copy"><span class="num">01 / Ancient Lake Basin</span><h3>Jezero Crater</h3><p>Delta deposits, an ancient lake environment and the home of Perseverance.</p><span class="site-arrow">↗</span></div></a>
-        <a class="site-card reveal" href="site.html?site=gale"><div class="photo nasa-photo" data-query="Gale Crater Mount Sharp Curiosity Mars"></div><div class="site-copy"><span class="num">02 / Layers of Time</span><h3>Gale Crater</h3><p>Curiosity's long traverse reveals a layered record of changing environments.</p><span class="site-arrow">↗</span></div></a>
-        <a class="site-card reveal" href="site.html?site=olympus"><div class="photo" style="background-image:url('assets/olympus-mons.jpg')" role="img" aria-label="Olympus Mons"></div><div class="site-copy"><span class="num">03 / Planetary Giant</span><h3>Olympus Mons</h3><p>A volcanic landscape on a scale unlike anything on Earth.</p><span class="site-arrow">↗</span></div></a>
-        <a class="site-card reveal" href="site.html?site=valles"><div class="photo nasa-photo" data-query="Valles Marineris Mars canyon NASA"></div><div class="site-copy"><span class="num">04 / Geology in Extremes</span><h3>Valles Marineris</h3><p>A vast canyon system that turns planetary scale into something visible.</p><span class="site-arrow">↗</span></div></a>
-      </div>
-    </div>
-  </section>
+      <aside class="manifesto-note reveal">
+        <span>THE CHALLENGE</span>
+        <p>Build a layered Martian route-planning experience that makes NASA data useful for a human explorer: terrain for movement, science context for purpose, and a return reserve that stays visible throughout the walk.</p>
+      </aside>
+    </section>
 
-  <section class="section atlas-section" id="atlas">
-    <div class="shell atlas-card reveal">
-      <div class="atlas-visual nasa-photo" data-query="Jezero Crater orbital Mars NASA" aria-label="NASA Mars image used as Jezero atlas preview">
-        <div class="atlas-marker m1 active" data-site="jezero">01</div>
-        <div class="atlas-marker m2" data-site="gale">02</div>
-        <div class="atlas-marker m3" data-site="olympus">03</div>
-        <div class="atlas-marker m4" data-site="valles">04</div>
+    <section class="metrics-wrap" aria-label="MarsWalk system overview">
+      <div class="shell metrics reveal">
+        <div><strong>100 m</strong><span>route-planning cell size</span></div>
+        <div><strong>25 km²</strong><span>focused Jezero study area</span></div>
+        <div><strong>4 modes</strong><span>Fast · Safe · Balanced · Science</span></div>
+        <div><strong>Always</strong><span>return reserve checked along the route</span></div>
       </div>
-      <div class="atlas-info">
-        <div class="eyebrow">Mars Atlas</div>
-        <h2 id="atlasTitle">Jezero Crater</h2>
-        <p id="atlasDesc">An ancient lake-basin landscape and the detailed study region for MarsWalk.</p>
-        <dl class="atlas-meta"><div><dt>Region Type</dt><dd id="atlasType">Impact crater / delta</dd></div><div><dt>Next Step</dt><dd id="atlasNext">Detailed Jezero exploration</dd></div></dl>
-        <div class="atlas-actions"><a id="atlasLink" class="button primary" href="site.html?site=jezero">Open Field Notes</a><a class="button ghost" href="live-map.html">Open Mars Atlas</a></div>
+    </section>
+
+    <section class="layers-section" id="layers">
+      <div class="shell">
+        <div class="section-head system-head reveal">
+          <div><span>02 / FROM MAP TO ROUTE</span><h2>How MarsWalk turns a real place into a route.</h2></div>
+          <p>The map is not decoration. MarsWalk separates visual context from numerical terrain, then turns the terrain into route choices that can be checked against a return reserve.</p>
+        </div>
+        <div class="system-flow">
+          <article class="system-map-card reveal">
+            <div class="bento-tag">01 · ORBITAL CONTEXT / JEZERO</div>
+            <div class="system-map-visual real-jezero-map" role="img" aria-label="NASA/JPL map of regions around Jezero Crater">
+              <span class="map-label label-delta">WESTERN DELTA</span>
+              <span class="map-label label-floor">CRATER FLOOR</span>
+              <span class="map-label label-rim">CRATER RIM</span>
+              <span class="map-label label-zone">MARSWALK STUDY ZONE</span>
+            </div>
+            <div class="system-map-copy">
+              <h3>See the place before calculating the walk.</h3>
+              <p>The orbital layer gives geographic context: delta, crater floor, rim, and the focused Jezero study zone. It tells the explorer where the route is happening without pretending image color is a terrain measurement.</p>
+              <small>Map context: NASA/JPL-Caltech/USGS/University of Arizona · PIA23976</small>
+            </div>
+          </article>
+          <div class="system-steps">
+            <article class="system-step reveal"><div class="step-no">02</div><div><span>MEASURE THE GROUND</span><h3>Convert the CTX elevation model into 100 m planning cells.</h3><p>Each cell summarizes elevation, slope, local relief, passability, and modeled walking cost from the numerical terrain source.</p></div></article>
+            <article class="system-step reveal"><div class="step-no">03</div><div><span>COMPARE ROUTES</span><h3>Run the same destinations through four route objectives.</h3><p>Fast minimizes travel time. Safe penalizes difficult terrain more strongly. Balanced mixes both. Science adds documented mission-interest context.</p></div></article>
+            <article class="system-step reveal"><div class="step-no">04</div><div><span>CHECK THE RETURN</span><h3>Keep the way home visible at every point.</h3><p>The planner checks oxygen already used, the fastest modeled return to base, and the configured reserve against total capacity along the complete route.</p></div></article>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="marswalk">
-    <div class="shell marswalk-banner reveal">
-      <div class="marswalk-overlay"></div>
-      <div class="marswalk-copy">
-        <div class="eyebrow">The Heart of the Project</div>
-        <h2>MarsWalk</h2>
-        <p>Choose a base, select destinations, compare route objectives and review an illustrative mission plan with a visible resource reserve and return-to-base check.</p>
-        <div class="hero-actions"><a class="button primary" href="marswalk.html">Enter MarsWalk</a><a class="button ghost" href="live-map.html">Select Locations on NASA Map</a></div>
+    <section class="marswalk-callout">
+      <div class="shell callout-grid">
+        <div class="callout-copy reveal"><span>03 / MARSWALK</span><h2>Select the base.<br>Select the science.<br>Run the walk.</h2><p>MarsWalk begins on a real Jezero orbital map. Choose a base and destinations, load the verified CTX elevation model, compare route objectives, inspect terrain cells, replay the walk, and export a mission report with the assumptions shown beside the result.</p><a class="button copper" href="marswalk.html">Open MarsWalk ↗</a></div>
+        <figure class="mission-visual reveal">
+          <img src="assets/jezero-crater.jpg" alt="Orbital false-color view of terrain inside Jezero Crater">
+          <figcaption>
+            <div><span>REAL JEZERO CONTEXT</span><strong>Pick locations on Mars. Let the terrain model do the calculation.</strong></div>
+            <div class="mission-mini-flow" aria-label="MarsWalk planning sequence"><span><b>01</b> Place base</span><span><b>02</b> Add stops</span><span><b>03</b> Compare routes</span><span><b>04</b> Check O₂ reserve</span></div>
+            <small>This image provides orbital context. MarsWalk route calculations use the separate CTX elevation model rather than image color.</small>
+          </figcaption>
+        </figure>
       </div>
-      <img class="marswalk-cat" src="assets/cat-astronaut.png" alt="Tour de Mars cat astronaut">
-    </div>
-  </section>
+    </section>
 
-  <section class="section team-section" id="team">
-    <div class="shell">
-      <div class="section-title centered-title reveal"><div class="eyebrow">Meet Our Team</div><h2>Different Minds.<br>One Red Planet.</h2></div>
-      <div class="team-grid">
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Navil.jpeg" alt="MD. Zahidul Islam Navil" width="654" height="916" loading="lazy" decoding="async">
-          <div class="team-info"><h3>MD. Zahidul Islam Navil</h3><div class="role">Team Lead</div><p class="team-handle">@pengvil</p></div>
-        </article>
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Shuaib.png" alt="Shuaib Mahfooz" width="1536" height="2048" loading="lazy" decoding="async">
-          <div class="team-info"><h3>Shuaib Mahfooz</h3><div class="role">Researcher</div><p class="team-handle">@shuaibmahfooz</p></div>
-        </article>
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Kazi.jpeg" alt="Kazi Shafiqul Alam" width="632" height="1123" loading="lazy" decoding="async">
-          <div class="team-info"><h3>Kazi Shafiqul Alam</h3><div class="role">Researcher</div><p class="team-handle">@qz_007</p></div>
-        </article>
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Mustafa.jpeg" alt="Syed Shahriar Mustafa" width="889" height="1185" loading="lazy" decoding="async">
-          <div class="team-info"><h3>Syed Shahriar Mustafa</h3><div class="role">Lead Developer</div><p class="team-handle">@ssmustafasahir</p></div>
-        </article>
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Shihab.jpeg" alt="Shihab Uddin Bhuiyan" width="495" height="742" loading="lazy" decoding="async">
-          <div class="team-info"><h3>Shihab Uddin Bhuiyan</h3><div class="role">Developer</div><p class="team-handle">@404shihab</p></div>
-        </article>
-        <article class="team-card reveal">
-          <img class="team-portrait" src="assets/Pictures/Ishtiaque.jpeg" alt="Md Ishtiaque Hossain" width="480" height="640" loading="lazy" decoding="async">
-          <div class="team-info"><h3>Md Ishtiaque Hossain</h3><div class="role">Content Strategy</div><p class="team-handle">@ishtiaque_hossain</p></div>
-        </article>
+    <section class="field-section shell" id="field-notes">
+      <div class="section-head reveal"><div><span>04 / FIELD NOTES</span><h2>Four places.<br>Four ways Mars tells its story.</h2></div></div>
+      <div class="field-grid">
+        <a class="field-card field-jezero reveal" href="field-jezero.html"><div class="field-no">01</div><div><span>ANCIENT LAKE BASIN</span><h3>Jezero Crater</h3><p>Ancient lake basin, river delta, sedimentary archive, and the Perseverance investigation.</p><b class="field-open">Read full field note ↗</b></div></a>
+        <a class="field-card field-gale reveal" href="field-gale.html"><div class="field-no">02</div><div><span>LAYERS OF TIME</span><h3>Gale Crater</h3><p>Mount Sharp stratigraphy, recurring ancient lakes, environmental change, and the Curiosity traverse.</p><b class="field-open">Read full field note ↗</b></div></a>
+        <a class="field-card field-olympus reveal" href="field-olympus.html"><div class="field-no">03</div><div><span>PLANETARY GIANT</span><h3>Olympus Mons</h3><p>Shield-volcano architecture, lava-flow history, summit collapse, and Tharsis tectono-volcanic context.</p><b class="field-open">Read full field note ↗</b></div></a>
+        <a class="field-card field-valles reveal" href="field-valles.html"><div class="field-no">04</div><div><span>GEOLOGY IN EXTREMES</span><h3>Valles Marineris</h3><p>Canyon morphology, crustal deformation, exposed stratigraphy, sulfate-bearing deposits, and formation models.</p><b class="field-open">Read full field note ↗</b></div></a>
       </div>
-    </div>
-  </section>
+      <div class="field-provenance reveal"><strong>OBSERVATION BASIS</strong><span>Remote scientific notes compiled with AI assistance using NASA data and the references listed in each note. They do not represent physical field visits.</span></div>
+    </section>
 
-  <section class="section space-apps-section" id="space-apps">
-    <div class="shell space-apps-card reveal">
-      <img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge">
-      <div><div class="eyebrow">Challenge Context</div><h2>Built as an independent Space Apps project.</h2><p>Tour de Mars is an independent student/team project for NASA Space Apps Challenge 2026. The site uses NASA and planetary-science resources for exploration and prototyping; it is not an official NASA product or a certified human-mission safety tool.</p></div>
-    </div>
-  </section>
-</main>
+    <section class="resources-section shell" id="resources">
+      <div class="section-head resources-head reveal">
+        <div><span>05 / ORGANIZER RESOURCES</span><h2>Official sources, connected to the parts they actually support.</h2></div>
+        <p>The new organizer resource pack is now reflected directly in the project: Mars Trek for Mars imagery and exploration, USGS/NASA maps for geologic context, NASA’s Curiosity route example for route-map communication, and Perseverance raw imagery for ground-level Jezero context. NASA Worldview is retained as an Earth-observation reference only—not as a Mars layer.</p>
+      </div>
+      <div class="resource-grid">
+        <a class="resource-card reveal" href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener noreferrer"><span>NASA / JPL</span><b>Mars Trek</b><p>Primary interactive Mars imagery and planetary exploration reference. Tour de Mars uses its controlled Jezero HiRISE/CTX mosaics and global MOLA + HRSC context.</p><em>USED IN ATLAS + MARSWALK ↗</em></a>
+        <a class="resource-card reveal" href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noopener noreferrer"><span>USGS / NASA</span><b>Planetary Geologic Maps</b><p>Standardized geologic-map reference for interpreting units and regional context. Linked from the Atlas and data audit without treating map colors as elevation.</p><em>GEOLOGIC CONTEXT ↗</em></a>
+        <a class="resource-card reveal" href="https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/" target="_blank" rel="noopener noreferrer"><span>NASA SCIENCE</span><b>Curiosity Route-Map Example</b><p>Organizer-provided example for communicating a traverse over real terrain. MarsWalk now emphasizes numbered stops, route direction, terrain, and waypoint annotation in that spirit.</p><em>ROUTE-VISUAL REFERENCE ↗</em></a>
+        <a class="resource-card reference-only reveal" href="https://worldview.earthdata.nasa.gov/" target="_blank" rel="noopener noreferrer"><span>NASA EARTHDATA</span><b>Worldview</b><p>A powerful satellite-imagery explorer for Earth. It is included as a visualization reference only and is not represented as a Mars imagery or Mars routing source.</p><em>REFERENCE ONLY · EARTH ↗</em></a>
+        <a class="resource-card reveal" href="https://mars.nasa.gov/mars2020/multimedia/raw-images/" target="_blank" rel="noopener noreferrer"><span>MARS 2020</span><b>Perseverance Raw Images</b><p>Ground-level rover imagery from Jezero Crater. The Jezero field note now links directly to the gallery so orbital planning context can be checked against surface observations.</p><em>GROUND-LEVEL CONTEXT ↗</em></a>
+      </div>
+      <div class="resource-note reveal"><strong>DATA-USE NOTE</strong><span>External resources remain subject to the data-use terms of their host sites. Tour de Mars is an independent Space Apps project and does not imply NASA endorsement.</span></div>
+    </section>
 
-<footer class="footer">
-  <div class="shell footer-grid">
-    <a class="brand footer-brand" href="index.html"><img class="brand-mark brand-mark-astronaut" src="assets/cat-astronaut.png" alt=""><span class="brand-name">Tour de Mars</span></a>
-    <nav class="footer-nav" aria-label="Footer navigation"><a href="#places">Explore</a><a href="#atlas">Atlas</a><a href="live-map.html">NASA App</a><a href="marswalk.html">MarsWalk</a><a href="audit.html">Data Audit</a></nav>
-  </div>
-</footer>
-<script src="site.js"></script>
+    <section class="team-section" id="team">
+      <div class="shell">
+        <div class="section-head team-head reveal"><div><span>06 / THE TEAM: 6bit_Larry</span><h2>Six people.<br>One red planet.</h2></div></div>
+        <div class="team-grid" aria-label="Tour de Mars team members">
+          <article class="person reveal"><img src="assets/team-member-1.jpg" alt="MD. Zahidul Islam Navil"><div><small>TEAM LEADER &amp; DEVELOPER</small><h3>MD. Zahidul Islam Navil</h3><span>✉ @pengvil</span></div></article>
+          <article class="person reveal"><img src="assets/team-member-2.jpg" alt="Shuaib Mahfooz"><div><small>RESEARCHER &amp; DEVELOPER</small><h3>Shuaib Mahfooz</h3><span>✉ @shuaibmahfooz</span></div></article>
+          <article class="person reveal"><img src="assets/team-member-3.jpg" alt="Kazi Shafiqul Alam"><div><small>RESEARCHER &amp; DEVELOPER</small><h3>Kazi Shafiqul Alam</h3><span>✉ @qz_007</span></div></article>
+          <article class="person reveal"><img src="assets/team-member-4.jpg" alt="Syed Shahriar Mustafa"><div><small>RESEARCH ASSISTANT</small><h3>Syed Shahriar Mustafa</h3><span>✉ @ssmustafasahir</span></div></article>
+          <article class="person reveal"><img src="assets/team-member-5.jpg" alt="Shihab Uddin Bhuiyan"><div><small>QA &amp; TESTING ASSISTANT</small><h3>Shihab Uddin Bhuiyan</h3><span>✉ @404shihab</span></div></article>
+          <article class="person reveal"><img src="assets/team-member-6.jpg" alt="Md Ishtiaque Hossain"><div><small>QA &amp; TESTING ASSISTANT</small><h3>Md Ishtiaque Hossain</h3><span>✉ @ishtiaque_hossain</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="transparency shell reveal">
+      <div><span>07 / TRANSPARENCY</span><h2>Real data where we have it.<br>Assumptions where we do not.</h2></div>
+      <div><p>Terrain metrics are intended to come from the USGS/NASA MRO CTX DEM. NASA Trek imagery is visual context. Oxygen and suited-walking parameters are adjustable planning assumptions, not flight rules. Science “interest” in this build is contextual—not a claim of measured CRISM abundance unless a verified CRISM layer is added.</p><a class="text-link" href="data-audit.html">Open the data &amp; assumptions audit →</a></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div><a class="wordmark footer-mark" href="#top"><img class="team-logo footer-team-logo" src="assets/team-logo.png" alt="Tour de Mars team emblem"><span class="wordmark-text"><b>TOUR DE MARS</b><small>2026</small></span></a><p>Independent NASA Space Apps Challenge project. Not an official NASA product and not certified for human-mission navigation.</p></div>
+      <a class="footer-space-apps" href="https://www.spaceappschallenge.org/" target="_blank" rel="noopener noreferrer" aria-label="Open the official NASA Space Apps Challenge website"><img src="assets/space-apps-logo-transparent.png" alt="NASA Space Apps Challenge"></a>
+      <div class="footer-links"><a href="marswalk.html">MarsWalk</a><a href="atlas.html">Mars Atlas</a><a href="data-audit.html">Data audit</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
 </body>
 </html>

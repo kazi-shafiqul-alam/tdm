@@ -6,3 +6,5 @@
 
 /* Shared visual refinement */
 img{border-radius:10px}.brand img{border-radius:7px}.place,.detail .fact-grid,.detail a.cta{border-radius:8px}
+
+.atlas-source a+a{display:block;margin-top:8px}

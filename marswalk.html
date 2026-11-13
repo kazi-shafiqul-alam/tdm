@@ -34,12 +34,12 @@
             <div class="progress"><i id="terrainProgress"></i></div>
             <div class="source-actions"><button id="retryTerrain">Retry official DEM</button><label class="file-button">Load local GeoTIFF<input id="terrainFile" type="file" accept=".tif,.tiff,image/tiff"></label></div>
           </div>
-          <p class="micro">Verified terrain routing requires the CTX DEM. If unavailable, you can rehearse an explicitly <strong>illustrative, map-only EVA</strong> (no slope/elevation or terrain-validation claims).</p>
+          <p class="micro">Verified terrain routing requires the CTX DEM. If it is unavailable, you may explore a clearly labeled illustrative sample without measured slope, hazards, or terrain validation.</p>
           <div class="demo-launch">
-            <div class="demo-launch-heading"><span class="demo-pulse"></span><b>240-SECOND PRESENTATION</b></div>
-            <p>Loads a sample base and two science stops. If real CTX data is not ready, displays clearly marked map-only estimates so the presentation still works.</p>
-            <button id="startDemo" class="demo-button">LOAD DEMO EVA <span>→</span></button>
-            <button id="reloadOfficial" class="demo-return" type="button">SWITCH TO VERIFIED CTX DATA ↗</button>
+            <div class="demo-launch-heading"><span class="demo-pulse"></span><b>QUICK START · SAMPLE EVA</b></div>
+            <p>Places a sample base and two science stops for exploring the route interface. Actual terrain-aware analysis requires the official CTX elevation model.</p>
+            <button id="startDemo" class="demo-button" type="button">LOAD DEMO EVA <span>→</span></button>
+            <button id="reloadOfficial" class="demo-return" type="button">USE VERIFIED CTX DATA ↗</button>
           </div>
         </section>
 
@@ -89,13 +89,19 @@
         <canvas id="marsMap" aria-label="Interactive real Mars map of Jezero Crater"></canvas>
         <div class="map-loading" id="mapLoading"><div class="spinner"></div><b>Connecting to NASA/JPL Mars Trek</b><span>Loading a real Jezero basemap…</span></div>
         <div class="map-toast" id="mapToast" hidden></div>
-        <div class="map-data-banner" id="mapDataBanner" aria-live="polite"><span class="banner-dot"></span><strong id="mapDataTitle">NASA/JPL MARS TREK BASEMAP</strong><span id="mapDataSubtitle">Terrain: checking official USGS CTX data</span></div>
-        <div class="map-preview-alert" id="mapPreviewAlert" hidden>ILLUSTRATIVE WALK-THROUGH · NO VERIFIED ELEVATION / SLOPE DATA</div>
+        <div class="map-provenance" aria-label="Map and terrain sources">
+          <span class="provenance-head"><i></i> OFFICIAL SOURCE DATA</span>
+          <div><small>BASEMAP</small><b id="mapProvenanceBasemap">NASA/JPL Mars Trek · HiRISE</b></div>
+          <div><small>TERRAIN</small><b id="mapProvenanceTerrain">USGS/NASA CTX · awaiting data</b></div>
+          <div><small>ANALYSIS</small><b>Tour de Mars model</b></div>
+          <div class="provenance-links"><a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener noreferrer">NASA MARS TREK ↗</a><a href="data-audit.html">DATA AUDIT ↗</a></div>
+        </div>
+        <div class="map-preview-alert" id="mapPreviewAlert" hidden>ILLUSTRATIVE EVA · NO VERIFIED ELEVATION OR SLOPE DATA</div>
         <div class="map-coords" id="mapCoords">18.44° N · 77.45° E</div>
-        <div class="map-legend"><span><i class="base"></i>Base</span><span><i class="stop"></i>Stop</span><span><i class="route"></i>Route</span><span><i class="zone"></i>Jezero mission zone</span></div>
+        <div class="map-legend"><span><i class="base"></i>Base</span><span><i class="stop"></i>Stop</span><span><i class="route"></i>Route</span><span><i class="zone"></i>Mission zone</span></div>
         <div class="playback-hud" id="playbackHud" hidden><div><small>ELAPSED</small><b id="playTime">00:00</b></div><div><small>O₂ USED</small><b id="playO2">0 L</b></div><div><small>RETURN MARGIN</small><b id="playMargin">—</b></div><button id="stopPlayback">STOP</button></div>
       </div>
-      <div class="map-footer"><span id="mapSource">Basemap: NASA/JPL Mars Trek</span><span>NASA IMAGERY · USGS TERRAIN · TOUR DE MARS MODEL</span></div>
+      <div class="map-footer"><span id="mapSource">Basemap: NASA/JPL Mars Trek</span><span>NASA IMAGERY · USGS TERRAIN · TOUR DE MARS ROUTING MODEL</span></div>
     </section>
 
     <aside class="panel right-panel">
@@ -127,14 +133,8 @@
             <div><dt>Science layer</dt><dd>Contextual mission-interest anchors, not mineral abundance</dd></div>
             <div><dt>O₂ / pace</dt><dd>User-adjustable modeling assumptions</dd></div>
           </dl>
-          <div class="source-verification">
-            <span>BASEMAP</span><b id="provenanceBasemap">NASA/JPL Mars Trek · HiRISE</b>
-            <span>TERRAIN</span><b id="provenanceTerrain">USGS/NASA CTX · pending verified data</b>
-            <span>ANALYSIS</span><b>Tour de Mars route + EVA scenario model</b>
-          </div>
-          <a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener noreferrer" class="audit-link">Open official NASA Mars Trek ↗</a>
-          <a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noopener noreferrer" class="audit-link">Open USGS Mars geologic maps ↗</a>
-          <a href="https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/?tab=resources" target="_blank" rel="noopener noreferrer" class="audit-link">Official 2026 challenge ↗</a>
+          <a href="https://trek.nasa.gov/mars/" target="_blank" rel="noopener noreferrer" class="audit-link">Official NASA Mars Trek ↗</a>
+          <a href="https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars" target="_blank" rel="noopener noreferrer" class="audit-link">USGS Mars geology ↗</a>
           <a href="data-audit.html" class="audit-link">Open full data audit →</a>
         </section>
       </div>

@@ -117,6 +117,6 @@ img{border-radius:10px}
   .mission-mini-flow{grid-template-columns:1fr}
 }
 
-/* Competition demo data-resource shelf */
-.resource-shelf{padding:105px 0}.resource-title{max-width:780px;margin-bottom:25px}.resource-title>span{font-size:10px;letter-spacing:.17em;color:#cc8364}.resource-title h2{font-size:clamp(28px,4vw,52px);font-weight:400;line-height:1.08;margin:14px 0 12px}.resource-title p{font-size:13px;line-height:1.7;color:#92928a}.resource-links-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.resource-links-grid a{border:1px solid #3c3531;padding:20px 15px;display:flex;flex-direction:column;gap:10px;min-height:180px;text-decoration:none;background:#121110;color:#e5ded6;transition:background .2s,border-color .2s}.resource-links-grid a:hover{background:#201711;border-color:#a3674d}.resource-links-grid small{font-size:9px;letter-spacing:.14em;color:#d28867}.resource-links-grid b{font-size:20px;font-weight:400}.resource-links-grid span{margin-top:auto;font-size:10px;color:#a79b94}.transparency .text-link+.text-link{margin-left:16px}
-@media(max-width:1000px){.resource-links-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:650px){.resource-links-grid{grid-template-columns:1fr 1fr}.resource-links-grid a{min-height:145px}}@media(max-width:440px){.resource-links-grid{grid-template-columns:1fr}}
+/* source links below the transparency summary */
+.transparency .text-link+.text-link{margin-left:16px}
+@media(max-width:620px){.transparency .text-link+.text-link{display:block;margin-left:0;margin-top:12px}}

@@ -76,8 +76,8 @@ The Tour de Mars team emblem from the earlier prototype has been restored in the
 
 Team role labels follow the requested final wording. The supplied project materials do not contain actual email addresses, so the known team contact handles from the prior prototype are retained rather than inventing email addresses.
 
-## 2026-11-13: 240-second presentation candidate
+## Homepage and MarsWalk copy cleanup — 2026-11-13
 
-The project is aligned to the official NASA Space Apps Challenge **Interplanetary Survival Guide: Martian Map**. Open `marswalk.html?demo=1` or click **Load Demo EVA** inside MarsWalk for a preselected, runnable base-and-two-stops walkthrough. A coordinate-only rehearsal works when the official CTX DEM cannot be loaded, but is prominently marked **ILLUSTRATIVE / NOT TERRAIN-VERIFIED**; numerical slopes, hazards, and official passability are not fabricated. The existing NASA/USGS real terrain pathway remains intact.
+This update removes the 240-second-video preview button from the homepage and removes the redundant homepage source-card shelf. Official organizer resource links are consolidated in `data-audit.html`, including NASA/JPL Mars Trek, USGS/NASA geologic maps, Curiosity's annotated route-map example, Perseverance raw images, and NASA Worldview (Earth reference only).
 
-For your recording, see `DEMO_240_SECONDS.md`. For GitHub/Vercel guidance, see `DEPLOY_TEST_BRANCH.md`. This ZIP has **not** been pushed to `main` or `test` or deployed to either supplied Vercel domain.
+The functional MarsWalk sample route remains available from the neutral **Quick Start · Sample EVA** panel, without presentation/video branding. If an official CTX digital terrain model is not available, the model explicitly labels the sample route **illustrative**, does not claim measured slopes or terrain safety, and marks JSON exports with `previewOnly: true`. The real USGS/NASA CTX DTM processing path remains available separately.

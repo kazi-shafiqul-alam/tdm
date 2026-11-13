@@ -186,7 +186,6 @@
       this.maxNative = this.layer.fallbackMax;
       this.tileCache = new Map();
       this.tileOK = false;
-      this.tileFailures = 0;
       this.drag = null;
       this.resizeObserver = new ResizeObserver(() => this.resize());
       this.resizeObserver.observe(canvas.parentElement || canvas);
@@ -278,12 +277,9 @@
       this.layer = MAP_LAYERS[key];
       this.template = this.layer.hardTemplate || null;
       this.maxNative = this.layer.fallbackMax;
-      $('#mapSource').textContent = `BASEMAP · NASA/JPL Mars Trek / ${this.layer.label}`;
-      const prov = $('#provenanceBasemap');
-      if (prov) prov.textContent = `NASA/JPL Mars Trek · ${key==='hirise'?'HiRISE':key==='ctx'?'CTX':'MOLA + HRSC'}`;
-      this.tileOK = false; this.tileFailures = 0;
-      const label = $('#mapDataTitle');
-      if (label) label.textContent = 'NASA/JPL MARS TREK · ' + key.toUpperCase();
+      $('#mapSource').textContent = `Basemap: NASA/JPL Mars Trek · ${this.layer.label}`;
+      const src = $('#mapProvenanceBasemap');
+      if (src) src.textContent = `NASA/JPL Mars Trek · ${key==='hirise'?'HiRISE':key==='ctx'?'CTX':'MOLA + HRSC'}`;
       try {
         if (!this.template) {
           const caps = `https://trek.nasa.gov/tiles/Mars/EQ/${this.layer.id}/1.0.0/WMTSCapabilities.xml`;
@@ -298,7 +294,7 @@
             .map(x => Number(x.textContent.trim())).filter(Number.isFinite);
           if (matrices.length) this.maxNative = Math.max(...matrices);
         }
-        if (state.terrainStatus !== 'ready' && $('#headerStatus')) $('#headerStatus').textContent = 'NASA TILE SERVICE SELECTED';
+        if (state.terrainStatus !== 'ready' && $('#headerStatus')) $('#headerStatus').textContent = 'NASA MAP READY';
       } catch (err) {
         console.warn(err);
         if (state.terrainStatus !== 'ready' && $('#headerStatus')) $('#headerStatus').textContent = 'NASA MAP UNAVAILABLE';
@@ -323,19 +319,8 @@
       const img = new Image();
       rec = { img, state: 'loading' };
       this.tileCache.set(url, rec);
-      img.onload = () => {
-        rec.state = 'ready'; this.tileOK = true;
-        if ($('#mapDataTitle')) $('#mapDataTitle').textContent = 'NASA/JPL MARS TREK · ' + this.layerKey.toUpperCase();
-        if ($('#mapDataSubtitle')) $('#mapDataSubtitle').textContent = state.demoPreview ? 'Map-only EVA preview · no elevation measurements' : 'Real NASA imagery tiles loaded';
-        this.render();
-      };
-      img.onerror = () => {
-        rec.state = 'error'; this.tileFailures++;
-        if (!this.tileOK && this.tileFailures === 1) {
-          if ($('#mapDataTitle')) $('#mapDataTitle').textContent = 'MAP GRID · NASA TILES OFFLINE';
-          if ($('#mapDataSubtitle')) $('#mapDataSubtitle').textContent = 'Coordinates are interactive; imagery needs internet';
-        }
-      };
+      img.onload = () => { rec.state = 'ready'; this.tileOK = true; this.render(); };
+      img.onerror = () => { rec.state = 'error'; };
       img.referrerPolicy = 'no-referrer';
       img.src = url;
       if (this.tileCache.size > 260) {
@@ -408,29 +393,15 @@
     }
   }
 
-  // Coordinate grid is procedural geometry, NEVER represented as orbital imagery
-  // or a digital terrain model. Used only when remote NASA WMTS tiles are offline.
+  // Geographic coordinate labels only: never presented as orbital imagery or elevation.
   function drawCoordinateGrid(ctx, map, w, h) {
-    ctx.save();
-    ctx.strokeStyle='rgba(105,130,137,.14)'; ctx.lineWidth=0.7;
-    ctx.fillStyle='rgba(108,129,133,.55)'; ctx.font='9px ui-monospace, Menlo, monospace';
-    const bottom=map.screenToLatLon(0,h), top=map.screenToLatLon(0,0);
-    const left=map.screenToLatLon(0,0), right=map.screenToLatLon(w,0);
-    const rangeLat=Math.abs(top.lat-bottom.lat),rangeLon=Math.abs(right.lon-left.lon);
-    const stepLat=rangeLat<.06?.005:rangeLat<.3?.02:.1;
-    const stepLon=rangeLon<.06?.005:rangeLon<.3?.02:.1;
-    const minLat=Math.min(bottom.lat,top.lat),maxLat=Math.max(bottom.lat,top.lat);
-    const minLon=Math.min(left.lon,right.lon),maxLon=Math.max(left.lon,right.lon);
-    for(let lat=Math.ceil(minLat/stepLat)*stepLat;lat<=maxLat;lat+=stepLat){
-      const yy=map.latLonToScreen(lat,map.center.lon).y;
-      ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(w,yy);ctx.stroke();
-      if(yy>24&&yy<h-12) ctx.fillText(lat.toFixed(3)+'° N',12,yy-5);
-    }
-    for(let lon=Math.ceil(minLon/stepLon)*stepLon;lon<=maxLon;lon+=stepLon){
-      const xx=map.latLonToScreen(map.center.lat,lon).x;
-      ctx.beginPath();ctx.moveTo(xx,0);ctx.lineTo(xx,h);ctx.stroke();
-      if(xx>35&&xx<w-55) ctx.fillText(lon.toFixed(3)+'° E',xx+5,h-35);
-    }
+    const sw=map.screenToLatLon(0,h),ne=map.screenToLatLon(w,0);
+    const latStep=Math.abs(ne.lat-sw.lat)<.06?.005:.02;
+    const lonStep=Math.abs(ne.lon-sw.lon)<.06?.005:.02;
+    ctx.save();ctx.strokeStyle='rgba(116,143,149,.16)';ctx.fillStyle='rgba(130,151,157,.66)';
+    ctx.lineWidth=.7;ctx.font='9px ui-monospace, monospace';
+    for(let lat=Math.ceil(sw.lat/latStep)*latStep;lat<=ne.lat;lat+=latStep){const y=map.latLonToScreen(lat,map.center.lon).y;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();if(y>32&&y<h-15)ctx.fillText(lat.toFixed(3)+'°N',10,y-4);}
+    for(let lon=Math.ceil(sw.lon/lonStep)*lonStep;lon<=ne.lon;lon+=lonStep){const x=map.latLonToScreen(map.center.lat,lon).x;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();if(x>35&&x<w-65)ctx.fillText(lon.toFixed(3)+'°E',x+3,h-27);}
     ctx.restore();
   }
 
@@ -510,6 +481,7 @@
       });
       ctx.stroke();
       ctx.restore();
+      drawRouteDirections(ctx,map,route);
     }
 
     const points = [];
@@ -538,6 +510,19 @@
       ctx.fillStyle = '#ffffff'; ctx.fill();
       ctx.restore();
     }
+  }
+
+  function drawRouteDirections(ctx,map,route) {
+    const path=route?.path||[];if(path.length<4)return;
+    const step=Math.max(8,Math.floor(path.length/6));
+    ctx.save();ctx.fillStyle='#fff1dc';ctx.strokeStyle='#161518';ctx.lineWidth=1;
+    for(let k=step;k<path.length-2;k+=step){
+      const aLL=tileToLatLon(path[k-2]),bLL=tileToLatLon(path[k+2]);
+      const a=map.latLonToScreen(aLL.lat,aLL.lon),b=map.latLonToScreen(bLL.lat,bLL.lon);
+      const dx=b.x-a.x,dy=b.y-a.y;if(Math.hypot(dx,dy)<1)continue;
+      ctx.save();ctx.translate((a.x+b.x)/2,(a.y+b.y)/2);ctx.rotate(Math.atan2(dy,dx));
+      ctx.beginPath();ctx.moveTo(7,0);ctx.lineTo(-5,-4);ctx.lineTo(-3,0);ctx.lineTo(-5,4);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
+    }ctx.restore();
   }
 
   function updateCursorReadout(ll) {
@@ -761,17 +746,15 @@
 
   function acceptTerrain(terrain, sourceLabel, cache = true) {
     if (state.demoPreview) {
-      stopPlayback(); state.base=null; state.stops=[]; state.route=null; state.comparisons=null;
+      stopPlayback();state.base=null;state.stops=[];state.route=null;state.comparisons=null;
       $('#compareSection').hidden=true;
     }
-    state.demoPreview = false;
-    for(const id of ['toggleRisk','toggleSlope','toggleScience']) $('#'+id).disabled=false;
+    state.demoPreview=false;
     document.body.classList.remove('preview-mode');
-    $('#mapPreviewAlert').hidden = true;
-    state.terrain = terrain;
-    state.sourceLabel = sourceLabel;
-    if ($('#provenanceTerrain')) $('#provenanceTerrain').textContent = 'USGS/NASA Mars 2020 CTX DTM · verified';
-    if ($('#mapDataSubtitle')) $('#mapDataSubtitle').textContent = 'Verified CTX terrain available for route analysis';
+    $('#mapPreviewAlert').hidden=true;
+    state.terrain=terrain;
+    state.sourceLabel=sourceLabel;
+    if ($('#mapProvenanceTerrain')) $('#mapProvenanceTerrain').textContent='USGS/NASA CTX DTM · verified';
     state.terrainStatus = 'ready';
     if (cache) {
       try { localStorage.setItem('tdmTerrainGridV3', JSON.stringify(terrain)); } catch (e) { console.warn('Terrain cache skipped', e); }
@@ -799,6 +782,7 @@
       toast('Real CTX terrain loaded. You can now place a base and route stops.', 'ok');
     } catch (err) {
       console.error(err);
+      if(state.demoPreview)return;
       state.terrainStatus = 'error';
       $('#terrainDot')?.classList.add('bad'); $('#headerDot')?.classList.add('bad');
       setStatus('Terrain not loaded', 'Use “Open local GeoTIFF” if your browser blocks cross-origin range requests.');
@@ -933,8 +917,9 @@
     if (!el || !state.terrain || i == null || i < 0) return;
     const c = state.terrain.cells[i], ll = tileToLatLon(i);
     if (state.demoPreview) {
-      const sci = scienceContext(ll.lat,ll.lon);
-      el.innerHTML = `<div class="inspector-head"><b>${tileId(i)}</b><span>${ll.lat.toFixed(5)}°, ${ll.lon.toFixed(5)}°</span><em class="terrain-pill">ILLUSTRATIVE / NO DEM</em></div><div class="inspector-grid"><div><small>Elevation</small><b>Not measured</b></div><div><small>Slope</small><b>Not measured</b></div><div><small>Ground risk</small><b>Not measured</b></div><div><small>Science waypoint</small><b>${sci.name || 'None nearby'}</b></div></div><p class="micro">Map-only rehearsal with approximate context waypoints; no measured terrain, hazard, or mineral classification.</p>`;
+      el.innerHTML = `<div class="inspector-head"><b>${tileId(i)}</b><span>${ll.lat.toFixed(5)}°, ${ll.lon.toFixed(5)}°</span><em class="terrain-pill">ILLUSTRATIVE · NO DEM</em></div>
+      <div class="inspector-grid"><div><small>Elevation</small><b>Not measured</b></div><div><small>Slope</small><b>Not measured</b></div><div><small>Hazards</small><b>Not measured</b></div><div><small>Waypoint</small><b>${c.scienceLabel || 'Map context'}</b></div></div>
+      <p class="micro">This sample uses only geographic geometry and adjustable scenario assumptions. Real terrain measurements are not available.</p>`;
       return;
     }
     el.innerHTML = `<div class="inspector-head"><b>${tileId(i)}</b><span>${ll.lat.toFixed(5)}°, ${ll.lon.toFixed(5)}°</span><em class="terrain-pill ${c.ok ? 'good' : 'bad'}">${c.ok ? 'PASSABLE · CURRENT LIMITS' : 'IMPASSABLE / INCOMPLETE'}</em></div>
@@ -1091,7 +1076,7 @@
     if (result.error) { toast(result.error,'warn'); return; }
     state.route=result; state.playbackIndex=null;
     renderRouteSummary(); state.map.render();
-    if (state.demoPreview) toast('ILLUSTRATIVE route and oxygen scenario ready; terrain not validated.', 'warn');
+    if (state.demoPreview) toast('Illustrative route available · terrain safety is not verified.','warn');
     else if (!result.ok) toast('Route calculated, but it violates the configured walkback oxygen reserve.', 'warn');
     else toast(`${result.preset.label} route ready. Walkback oxygen margin remains positive.`, 'ok');
   }
@@ -1112,13 +1097,12 @@
       if (actions) actions.hidden=true;
       return;
     }
-    if (state.demoPreview) {
-      box.innerHTML=`<div class="headline"><div class="headline-top"><span class="route-name">${r.preset.label.toUpperCase()} · REHEARSAL</span><span class="route-state">ILLUSTRATIVE</span></div><h2>${(r.distance/1000).toFixed(2)} km</h2><p>Geometry-only preview, not terrain-safe navigation</p></div>
-      <div class="summary-grid"><div><small>Model walk time</small><b>${formatTime(r.totalTime)}</b></div><div><small>Scenario O₂ use</small><b>${r.totalO2.toFixed(0)} L</b></div><div><small>Scenario O₂ left</small><b>${r.o2Remaining.toFixed(0)} L</b></div><div><small>Assumed walkback</small><b>${r.minMargin.toFixed(0)} L</b></div><div><small>Total ascent</small><b>Not measured</b></div><div><small>Terrain slope</small><b>Not measured</b></div></div>
-      <div class="demo-disclosure"><strong>DEMO PREVIEW — NOT VERIFIED</strong> · Real NASA imagery loads online when available. This walk-through uses map geometry and adjustable oxygen assumptions only; terrain slopes, hazards, and passability are unknown. Route variants are not validated without the official USGS CTX DTM.</div>`;
-      if (actions) actions.hidden=false;
-      updateReportDialog();
-      return;
+    if(state.demoPreview){
+      box.innerHTML=`<div class="headline"><div class="headline-top"><span class="route-name">${r.preset.label.toUpperCase()} · SAMPLE EVA</span><span class="route-state">ILLUSTRATIVE</span></div><h2>${(r.distance/1000).toFixed(2)} km</h2><p>Map-only geometry; terrain safety is not validated.</p></div>
+        <div class="summary-grid"><div><small>Model walk time</small><b>${formatTime(r.totalTime)}</b></div><div><small>Scenario O₂ used</small><b>${r.totalO2.toFixed(0)} L</b></div><div><small>Scenario O₂ left</small><b>${r.o2Remaining.toFixed(0)} L</b></div><div><small>Assumed walkback</small><b>${r.minMargin.toFixed(0)} L</b></div><div><small>Total ascent</small><b>Not measured</b></div><div><small>Terrain slope</small><b>Not measured</b></div></div>
+        <div class="demo-disclosure"><b>ILLUSTRATIVE / NOT TERRAIN-VERIFIED</b> · No real CTX elevation measurements are loaded. Route geometry and life-support scenario values are hypothetical; actual slope, hazards and passability remain unknown. Route modes are not validated here.</div>`;
+      if(actions)actions.hidden=false;
+      updateReportDialog();return;
     }
     box.innerHTML=`<div class="headline"><div class="headline-top"><span class="route-name">${r.preset.label.toUpperCase()} ROUTE</span><span class="route-state ${r.ok?'':'fail'}">${r.ok?'PASS':'REVIEW'}</span></div><h2>${(r.distance/1000).toFixed(2)} km</h2><p>${r.ok?'Walkback oxygen reserve maintained at every sampled route cell.':'Configured reserve is violated somewhere along the route.'}</p></div>
       <div class="summary-grid">
@@ -1155,9 +1139,9 @@
     const r=state.route; if(!r)return;
     const doc=$('#reportDocument'); if(!doc)return;
     doc.className='report-doc';
-    if(state.demoPreview) {
-      const coords=[state.base,...state.stops].map((idx,i)=>{const ll=tileToLatLon(idx);return `<tr><td>${i?'Stop '+i:'Base'}</td><td>${ll.lat.toFixed(5)}°N, ${ll.lon.toFixed(5)}°E</td></tr>`;}).join('');
-      doc.innerHTML=`<header><div class="report-kicker">TOUR DE MARS · ILLUSTRATIVE ONLY</div><h1>Map-only EVA rehearsal</h1><p>No verified DEM was available; this report is not scientific terrain validation.</p></header><div class="big-stats"><div><small>ROUTE</small><b>${r.preset.label}</b></div><div><small>GEOMETRIC DISTANCE</small><b>${(r.distance/1000).toFixed(2)} km</b></div><div><small>ASSUMED TIME</small><b>${formatTime(r.totalTime)}</b></div><div><small>ASSUMED O₂ MARGIN</small><b>${r.minMargin.toFixed(0)} L</b></div></div><h2>Sample mission points</h2><table><thead><tr><th>Type</th><th>Coordinate</th></tr></thead><tbody>${coords}</tbody></table><h2>Validity disclosure</h2><p>Illustrative walk-through: DEM elevations, measured slope, rock hazards, and route safety have not been verified. Walk time and oxygen are hypothetical, using flat-ground geometry and adjustable scenario inputs. Load the official USGS/NASA CTX DTM before scientific use.</p>`;
+    if(state.demoPreview){
+      const points=[state.base,...state.stops].map((idx,n)=>{const ll=tileToLatLon(idx);return `<tr><td>${n?'Stop '+n:'Base'}</td><td>${ll.lat.toFixed(5)}°N, ${ll.lon.toFixed(5)}°E</td></tr>`;}).join('');
+      doc.innerHTML=`<header><div class="report-kicker">TOUR DE MARS · ILLUSTRATIVE SAMPLE</div><h1>Sample EVA route report</h1><p>Map-only demonstration. No measured CTX elevation or slope is available.</p></header><div class="big-stats"><div><small>MODE</small><b>${r.preset.label}</b></div><div><small>GEOMETRIC DISTANCE</small><b>${(r.distance/1000).toFixed(2)} km</b></div><div><small>ASSUMED TIME</small><b>${formatTime(r.totalTime)}</b></div><div><small>ASSUMED O₂ MARGIN</small><b>${r.minMargin.toFixed(0)} L</b></div></div><h2>Selected points</h2><table><thead><tr><th>Point</th><th>Coordinates</th></tr></thead><tbody>${points}</tbody></table><h2>Validity disclosure</h2><p>This is an illustrative sample with no verified CTX DEM. Measured elevation, slope, hazards and passability are unknown. Time and oxygen values are hypothetical planning assumptions.</p>`;
       return;
     }
     const b=zoneBounds();
@@ -1191,14 +1175,13 @@
     const r=state.route;if(!r)return;
     const payload={
       project:'Tour de Mars / MarsWalk', generated:new Date().toISOString(), result:r.ok?'PASS':'REVIEW', routeMode:r.presetKey,
-      verifiedTerrain: !state.demoPreview,
-      previewOnly: !!state.demoPreview,
+      previewOnly:!!state.demoPreview,verifiedTerrain:!state.demoPreview,
       terrain:{label:state.sourceLabel,source:state.terrain.source,methodology:state.terrain.methodology},
       assumptions:r.assumptions,
       metrics:{distanceM:r.distance,totalTimeS:r.totalTime,totalO2L:r.totalO2,o2RemainingL:r.o2Remaining,minWalkbackMarginL:r.minMargin,ascentM:r.ascent,maxP90SlopeDeg:r.maxSlope,avgTerrainCost:r.avgRisk,avgScienceContext:r.avgScience},
       points:[state.base,...state.stops].map((idx,n)=>({role:n===0?'base':`stop-${n}`,tile:tileId(idx),...tileToLatLon(idx)})),
       path:r.path.map(idx=>({tile:tileId(idx),...tileToLatLon(idx)})),
-      notes:[...(state.demoPreview ? ['ILLUSTRATIVE MAP-ONLY PREVIEW: no verified CTX elevation, passability, terrain slope, or hazard data; oxygen based on flat-ground geometry only.'] : []),'Oxygen parameters are adjustable scenario assumptions, not medical/flight-certified limits.','Science score is contextual waypoint proximity and not a CRISM mineral measurement.']
+      notes:[...(state.demoPreview?['ILLUSTRATIVE ONLY: no CTX elevation, slope or passability verified. Oxygen values use flat-ground geographic geometry.']:[]),'Oxygen parameters are adjustable scenario assumptions, not medical/flight-certified limits.','Science score is contextual waypoint proximity and not a CRISM mineral measurement.']
     };
     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
     a.href=url;a.download=`marswalk-route-${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -1222,72 +1205,55 @@
     state.map?.render();
   }
 
-
-  // Optional presentation-only rehearsal. This deliberately does NOT manufacture a
-  // CTX elevation surface. The neutral numeric placeholders exist solely to let the
-  // geometry/oxygen UI be exercised; every terrain metric is hidden and all output
-  // explicitly carries a non-verified warning.
-  function loadRehearsalEVA() {
+  function loadSampleEVA() {
     stopPlayback();
-    if (!state.terrain || state.demoPreview) {
-      const cells = Array.from({length:ROUTE.rows*ROUTE.cols},(_,i)=>{
-        const ll=tileToLatLon(i); const sc=scienceContext(ll.lat,ll.lon);
+    if(!state.terrain || state.demoPreview){
+      const cells=Array.from({length:ROUTE.rows*ROUTE.cols},(_,i)=>{
+        const ll=tileToLatLon(i), sc=scienceContext(ll.lat,ll.lon);
         return {elev:0,p90:0,steepFrac:null,relief:null,coverage:null,risk:0,
           science:sc.score,scienceLabel:sc.name,ok:true};
       });
       state.demoPreview=true;
-      for(const id of ['toggleRisk','toggleSlope','toggleScience']) $('#'+id).disabled=true;
       state.terrainStatus='preview';
-      state.terrain={version:3,sourceType:'ILLUSTRATIVE PREVIEW - NOT USGS CTX DATA',
-        source:'Map geometry only (no DEM); synthetic terrain is NOT supplied',
-        methodology:{passable:'Not assessed: all cells used for demonstration only',
-          slope:'Unavailable: no terrain elevation measurements',
-          risk:'Unavailable: flat-ground demonstration routing is illustrative',
-          science:'Approximate named waypoint proximity, not mineral measurement'}, cells};
-      state.sourceLabel='ILLUSTRATIVE GEOMETRY PREVIEW · NO VERIFIED TERRAIN';
+      state.terrain={version:3,sourceType:'ILLUSTRATIVE GEOMETRY ONLY',source:'Map geometry, NOT USGS CTX terrain',
+        methodology:{passable:'Unknown (geometry-only sample)',slope:'Not measured',risk:'Not measured',science:'Named waypoint context'},cells};
+      state.sourceLabel='ILLUSTRATIVE · NO MEASURED TERRAIN';
       document.body.classList.add('preview-mode');
       $('#mapPreviewAlert').hidden=false;
-      if ($('#provenanceTerrain')) $('#provenanceTerrain').textContent='NOT LOADED · CTX terrain needed for real safety analysis';
-      if ($('#mapDataSubtitle')) $('#mapDataSubtitle').textContent='No elevation/slope data · route is illustrative';
-      setStatus('REHEARSAL · NOT TERRAIN-VERIFIED','The sample EVA uses geographic geometry and scenario oxygen only. CTX elevation is not loaded.');
-      setProgress(0,'ILLUSTRATIVE MODE · NO REAL DEM');
-      $('#terrainDot')?.classList.remove('ready'); $('#headerDot')?.classList.remove('ready');
-      if($('#headerStatus')) $('#headerStatus').textContent='PRESENTATION PREVIEW · UNVERIFIED';
+      if ($('#mapProvenanceTerrain')) $('#mapProvenanceTerrain').textContent='Not loaded · no elevation/slope validation';
+      for(const id of ['toggleRisk','toggleSlope','toggleScience']) $('#'+id).disabled=true;
+      $('#headerDot')?.classList.remove('ready');$('#terrainDot')?.classList.remove('ready');
+      $('#headerStatus').textContent='SAMPLE EVA · TERRAIN UNVERIFIED';
+      setStatus('Map-only sample active','Real CTX elevation is required for slope, risk and safe-route analysis.');
+      setProgress(0,'Geographic sample only');
     }
     const targets=[[21,23],[19,29],[28,34]];
-    const candidate = (r,c)=>{
-      const i=r*ROUTE.cols+c;
-      return state.demoPreview?i:findNearestOpen(i,18,18);
+    const candidate=(r,c)=>{
+      const i=r*ROUTE.cols+c;return state.demoPreview?i:findNearestOpen(i,18,18);
     };
     const points=targets.map(([r,c])=>candidate(r,c));
-    if(points.some(i=>i<0)||new Set(points).size!==points.length){
-      toast('No complete sample path within the verified CTX passability area. Pick nearby passable points manually.','warn');
-      return;
+    if(points.some(i=>i<0)||new Set(points).size!==3){
+      toast('The selected sample stops are unavailable on this terrain. Place nearby verified points manually.','warn');return;
     }
-    state.base=points[0]; state.stops=points.slice(1);state.route=null;state.comparisons=null;
+    state.base=points[0];state.stops=points.slice(1);state.route=null;state.comparisons=null;
     activateModeButton('inspect');activateRouteButton('balanced');
-    renderPoints();updateInspector(state.base);
+    renderPoints();updateInspector(state.base);state.map.fitZone();
     $('#planRoute').disabled=false;$('#compareRoutes').disabled=false;
-    state.map.fitZone();
-    planCurrentRoute();
-    if (state.route) compareRoutes();
-    toast(state.demoPreview?'Rehearsal EVA loaded · all terrain metrics are UNVERIFIED.':'Sample route loaded on real CTX terrain.','ok');
+    planCurrentRoute();if(state.route)compareRoutes();
+    toast(state.demoPreview?'Sample EVA loaded · terrain properties are unverified.':'Sample EVA loaded with verified CTX terrain.','ok');
   }
 
-  function returnToRealTerrain() {
-    if(state.demoPreview) {
-      stopPlayback();state.demoPreview=false;state.terrain=null;state.base=null;
-      for(const id of ['toggleRisk','toggleSlope','toggleScience']) $('#'+id).disabled=false;
-      state.stops=[];state.route=null;state.comparisons=null;
-      document.body.classList.remove('preview-mode');
-      $('#mapPreviewAlert').hidden=true;
-      $('#compareSection').hidden=true;
-      $('#planRoute').disabled=true;$('#compareRoutes').disabled=true;
-      if($('#provenanceTerrain')) $('#provenanceTerrain').textContent='USGS/NASA CTX DTM · checking official source';
+  function returnToRealTerrain(){
+    if(state.demoPreview){
+      stopPlayback();state.demoPreview=false;state.terrain=null;state.base=null;state.stops=[];
+      state.route=null;state.comparisons=null;
+      $('#compareSection').hidden=true;$('#planRoute').disabled=true;$('#compareRoutes').disabled=true;
+      document.body.classList.remove('preview-mode');$('#mapPreviewAlert').hidden=true;
+      if($('#mapProvenanceTerrain'))$('#mapProvenanceTerrain').textContent='USGS/NASA CTX · awaiting data';
+      for(const id of ['toggleRisk','toggleSlope','toggleScience'])$('#'+id).disabled=false;
       renderPoints();renderRouteSummary();state.map.render();
     }
-    state.terrainStatus='idle';
-    loadOfficialTerrain();
+    state.terrainStatus='idle';loadOfficialTerrain();
   }
 
   function bindUI() {
@@ -1295,7 +1261,7 @@
     $('#basemapSelect').onchange=e=>state.map.setLayer(e.target.value);
     $('#zoomIn').onclick=()=>state.map.zoomBy(1); $('#zoomOut').onclick=()=>state.map.zoomBy(-1); $('#fitZone').onclick=()=>state.map.fitZone();
     $('#retryTerrain').onclick=returnToRealTerrain;
-    $('#startDemo').onclick=loadRehearsalEVA;
+    $('#startDemo').onclick=loadSampleEVA;
     $('#reloadOfficial').onclick=returnToRealTerrain;
     $('#terrainFile').onchange=e=>loadLocalTerrain(e.target.files?.[0]);
     $$('[data-mode]').forEach(b=>b.onclick=()=>activateModeButton(b.dataset.mode));
@@ -1322,12 +1288,11 @@
     bindUI();
     renderPoints(); renderRouteSummary(); activateModeButton('base'); activateRouteButton('balanced');
     const restored=restoreTerrain();
-    if (new URLSearchParams(location.search).get('demo') === '1') {
-      setTimeout(loadRehearsalEVA, 350);
-    } else if(!restored){
+    if(!restored){
       setStatus('Connecting to real terrain','Trying the official USGS/PDS CTX DEM. You can also open the same GeoTIFF from disk.');
       setProgress(2,'Starting official terrain load');
-      setTimeout(loadOfficialTerrain, 650);
+      if(new URLSearchParams(location.search).get('demo')==='1')setTimeout(loadSampleEVA,400);
+      else setTimeout(loadOfficialTerrain,650);
     }
     state.map.fitZone();
   }

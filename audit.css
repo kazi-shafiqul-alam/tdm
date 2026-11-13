@@ -4,3 +4,6 @@
 
 /* Shared visual refinement */
 img{border-radius:10px}.team-logo,.footer-space-apps img{border-radius:7px}
+
+.organizer-sources .ledger article:nth-child(5){grid-column:1/-1}.resource-disclaimer{margin-top:18px}
+@media(max-width:760px){.organizer-sources .ledger article:nth-child(5){grid-column:auto}}

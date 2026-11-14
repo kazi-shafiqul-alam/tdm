@@ -87,6 +87,15 @@
     demoPreview: false,
   };
 
+  // Keep the Quick Start copy accurate in both verified and illustrative modes.
+  function updateDemoLaunchText(verified) {
+    const element = $('#demoLaunchDescription');
+    if (!element) return;
+    element.textContent = verified
+      ? 'Verified CTX terrain is ready. Load the sample EVA to explore terrain-aware routing, science destinations, and modeled oxygen-return planning.'
+      : 'Load a sample base and two science stops. Without verified CTX data, terrain-aware slope and passability results are unavailable.';
+  }
+
   function localToLatLon(lx, ly) {
     const x = ROUTE.x0 + lx;
     const y = ROUTE.yBottom + ly;
@@ -756,6 +765,7 @@
     state.sourceLabel=sourceLabel;
     if ($('#mapProvenanceTerrain')) $('#mapProvenanceTerrain').textContent='USGS/NASA CTX DTM · verified';
     state.terrainStatus = 'ready';
+    updateDemoLaunchText(true);
     if (cache) {
       try { localStorage.setItem('tdmTerrainGridV3', JSON.stringify(terrain)); } catch (e) { console.warn('Terrain cache skipped', e); }
     }
@@ -786,6 +796,7 @@
       state.terrainStatus = 'error';
       $('#terrainDot')?.classList.add('bad'); $('#headerDot')?.classList.add('bad');
       setStatus('Terrain not loaded', 'Use “Open local GeoTIFF” if your browser blocks cross-origin range requests.');
+      updateDemoLaunchText(false);
       setProgress(0, 'No terrain grid');
       toast(err.message || 'Could not load the official terrain dataset.', 'warn');
     }
@@ -804,6 +815,7 @@
       state.terrainStatus = 'error';
       $('#terrainDot')?.classList.add('bad'); $('#headerDot')?.classList.add('bad');
       setStatus('Local terrain failed', err.message || 'Could not process GeoTIFF');
+      updateDemoLaunchText(false);
       toast(err.message || 'Could not process the selected GeoTIFF.', 'warn');
     }
   }
@@ -1225,6 +1237,7 @@
       $('#headerDot')?.classList.remove('ready');$('#terrainDot')?.classList.remove('ready');
       $('#headerStatus').textContent='SAMPLE EVA · TERRAIN UNVERIFIED';
       setStatus('Map-only sample active','Real CTX elevation is required for slope, risk and safe-route analysis.');
+      updateDemoLaunchText(false);
       setProgress(0,'Geographic sample only');
     }
     const targets=[[21,23],[19,29],[28,34]];
@@ -1253,7 +1266,7 @@
       for(const id of ['toggleRisk','toggleSlope','toggleScience'])$('#'+id).disabled=false;
       renderPoints();renderRouteSummary();state.map.render();
     }
-    state.terrainStatus='idle';loadOfficialTerrain();
+    state.terrainStatus='idle';updateDemoLaunchText(false);loadOfficialTerrain();
   }
 
   function bindUI() {

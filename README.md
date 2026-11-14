@@ -1,4 +1,4 @@
-# Tour de Mars 🪐
+# Tour de Mars
 
 <p align="center">
   <img src="./favicon.png" alt="Tour de Mars astronaut cat mascot" width="240" />
@@ -9,10 +9,14 @@
 **Tour de Mars** is a web-based Mars exploration and extravehicular activity (EVA) planning prototype by **Team 6bit_Larry**, developed for the **2026 NASA Space Apps Challenge**.
 
 **Challenge:** [Interplanetary Survival Guide: Martian Map](https://www.spaceappschallenge.org/2026/challenges/interplanetary-survival-guide-martian-map/)  
+**Live Demo:** [https://tour-de-mars.vercel.app/](https://tour-de-mars.vercel.app/)  
+**MarsWalk Planner (Live):** [https://tour-de-mars.vercel.app/marswalk.html](https://tour-de-mars.vercel.app/marswalk.html)  
+**240s Presentation Video:** [https://youtu.be/hznaf08VCDU](https://youtu.be/hznaf08VCDU)  
+**Source Repository:** [https://github.com/pengvil/Tour-de-Mars](https://github.com/pengvil/Tour-de-Mars)  
 
-> **Local build status — November 14, 2026:** This uploaded project archive includes the precomputed Jezero CTX terrain grid in `data/terrain-grid.js`. It contains **2,500 cells**, of which **2,487 pass** the project's modeled coverage/slope thresholds. Re-running the included `tools/build_terrain.py` on the included `.tiff` reproduced the same grid cells and statistics. This is a reproducibility check against the supplied raster, not independent certification of its original download provenance.
->
-> **Deployment status:** These improvements have been confirmed in the local archive, **not** on the publicly hosted Vercel URL. Push the updated files to the branch Vercel deploys, wait for a successful deployment, and verify the public site in a fresh/incognito browser before telling judges the deployed version has the bundled CTX grid.
+> **Deployment note:** The live application is hosted on Vercel. For local execution and offline demonstration, follow the instructions in the [Getting started](#getting-started) section below.
+
+> **Terrain status (checked November 14, 2026):** The repository includes the precomputed Jezero CTX terrain grid in `data/terrain-grid.js`. It contains **2,500 cells**, of which **2,487 pass** the project's modeled coverage/slope thresholds. Re-running `tools/build_terrain.py` on the supplied CTX raster reproduced the same grid cells and statistics. This is a reproducibility check against the supplied raster, not independent certification of its original download provenance.
 
 ## Overview
 
@@ -25,7 +29,7 @@ Tour de Mars explores that question through a set of connected experiences:
 - **Field Notes:** research-based explorations of Jezero Crater, Gale Crater, Olympus Mons, and Valles Marineris.
 - **Data Audit:** source attribution, computational assumptions, limitations, and reproducibility information.
 
-The current local build combines **official NASA/JPL map imagery**, a **bundled terrain grid derived from the USGS/NASA Jezero CTX elevation product**, and **our own route-planning and life-support scenario models**. The terrain pipeline can also regenerate the grid from the original GeoTIFF. This is an educational and research prototype, **not** an operational astronaut navigation system.
+The project combines **official NASA/JPL map imagery**, a **bundled terrain grid derived from the USGS/NASA Jezero CTX elevation product**, and **our own route-planning and life-support scenario models**. The terrain pipeline can also regenerate the grid from the original GeoTIFF. It is an educational and research prototype, **not** an operational astronaut navigation system.
 
 ## Features
 
@@ -33,7 +37,7 @@ The current local build combines **official NASA/JPL map imagery**, a **bundled 
 | --- | --- |
 | NASA Mars Trek map | Displays Jezero HiRISE and CTX orbital mosaics and global MOLA/HRSC context using real WMTS tiles. |
 | Interactive mission points | Choose a base camp, add science stops, inspect map coordinates, and work inside a 5 × 5 km Jezero planning area. |
-| Terrain processing | Loads a bundled CTX-derived 50 × 50 grid in the updated local build; computes elevation, slope, relief, coverage, and modeled terrain-cost summaries from the official DTM. |
+| Terrain processing | Loads a bundled CTX-derived 50 × 50 grid; computes elevation, slope, relief, coverage, and modeled terrain-cost summaries from the official DTM. |
 | Four route objectives | Compare **Fast**, **Safe**, **Balanced**, and **Science** routing with different optimization weights. |
 | Oxygen/walkback model | Estimates scenario-dependent walking time, oxygen usage, and return-to-base reserve. |
 | Route comparison and replay | Inspect alternatives, replay the planned traverse, and examine model outcomes. |
@@ -42,9 +46,9 @@ The current local build combines **official NASA/JPL map imagery**, a **bundled 
 
 ### How the route planner works
 
-In the **updated local build**, MarsWalk loads a precomputed CTX-derived terrain grid for a **5 km × 5 km** planning zone divided into **50 × 50 cells** (2,500 cells, each 100 m wide). The source DTM has approximately 20 m posts; `tools/build_terrain.py` reprojects the elevation raster to a 20 m working grid, then computes 100 m cell summaries for an eight-neighbor route graph.
+MarsWalk loads a precomputed CTX-derived terrain grid for a **5 km × 5 km** planning zone divided into **50 × 50 cells** (2,500 cells, each 100 m wide). The source DTM has approximately 20 m posts; `tools/build_terrain.py` reprojects the elevation raster to a 20 m working grid, then computes 100 m cell summaries for an eight-neighbor route graph.
 
-**Reproduced local grid statistics:** 2,500 cells with data, **2,487 modeled passable** and 13 outside the passability limits; **median cell p90 slope 3.193°**; elevation range (cell means) **−2,622.839 m to −2,450.936 m**. These numbers describe the processed 5 × 5 km study area and model thresholds; they are **not** mission-certified hazard or safety measurements.
+**Reproduced grid statistics:** 2,500 cells with data, **2,487 modeled passable** and 13 outside the passability limits; **median cell p90 slope 3.193°**; elevation range (cell means) **−2,622.839 m to −2,450.936 m**. These numbers describe the processed 5 × 5 km study area and model thresholds; they are **not** mission-certified hazard or safety measurements.
 
 The implementation uses the following disclosed rules and assumptions:
 
@@ -63,7 +67,7 @@ The implementation uses the following disclosed rules and assumptions:
 | **MRO HiRISE — Jezero controlled orthomosaic** | Detailed orbital image basemap for Jezero exploration. | **Direct WMTS map layer** |
 | **MRO CTX — Jezero controlled orthomosaic** | Wider-area Jezero orbital image basemap. | **Direct WMTS map layer** |
 | **MOLA / Mars Express HRSC blended color-shaded product** | Global Mars visual and relief context; the HRSC component originates with ESA's Mars Express mission. | **Direct WMTS map layer** |
-| [USGS/NASA Mars 2020 Jezero CTX DTM](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif) | Numerical elevation source for the derived grid: elevation, p90 slope, relief, coverage, modeled passability, and terrain-cost calculations. | **Derived 2,500-cell grid bundled in the updated local build; public deployment must still be checked** |
+| [USGS/NASA Mars 2020 Jezero CTX DTM](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif) | Numerical elevation source for the derived grid: elevation, p90 slope, relief, coverage, modeled passability, and terrain-cost calculations. | **Derived 2,500-cell grid bundled in the repository** |
 | [USGS/NASA interactive geologic maps](https://astrogeology-usgs.hub.arcgis.com/pages/interactive-maps-mars) | Geologic context and interpretation. | **Reference / external map** |
 | [Perseverance raw-image gallery](https://mars.nasa.gov/mars2020/multimedia/raw-images/) | Ground-level Jezero context for research and visual comparisons. | **Reference** |
 | [Curiosity's proposed route up Mount Sharp](https://science.nasa.gov/resource/curiositys-proposed-path-up-mount-sharp/) | An example of presenting annotated traverses and science destinations; not route input for Jezero. | **Design/reference** |
@@ -75,28 +79,51 @@ NASA/JPL, USGS, and ESA are credited for their respective data products. Tour de
 
 ## Getting started
 
-The site is a primarily **static HTML/CSS/JavaScript** application. No Node.js build step is required for the website files in the supplied source archive.
+You can explore the project immediately via the live web deployment or run it locally:
+
+- **Live Website:** [https://tour-de-mars.vercel.app/](https://tour-de-mars.vercel.app/)
+- **MarsWalk Mission Control:** [https://tour-de-mars.vercel.app/marswalk.html](https://tour-de-mars.vercel.app/marswalk.html)
+- **240-Second Presentation Video:** [https://youtu.be/hznaf08VCDU](https://youtu.be/hznaf08VCDU)
+
+The site is a **static HTML/CSS/JavaScript** application. There is no build step and nothing to install to run the website itself.
 
 ### 1. Run locally
 
-Clone the repository and go to the directory containing `index.html`:
+**Requirements:** [Git](https://git-scm.com/), a modern browser (Chrome, Edge, Firefox), an internet connection (the map tiles stream from NASA Mars Trek), and any one of Python 3, Node.js, or VS Code for the local server.
+
+Clone the repository and start a local server from the project root (the folder that contains `index.html`):
 
 ```bash
-git clone https://github.com/kazi-shafiqul-alam/tdm.git
-cd tdm
-# If index.html is in a subdirectory in your checkout, cd into that directory.
-python -m http.server 8080
+git clone https://github.com/pengvil/Tour-de-Mars.git
+cd Tour-de-Mars
 ```
 
-Open [http://localhost:8080](http://localhost:8080) and select **MarsWalk**.
+Then use **one** of these:
 
-The map imagery loads from NASA Mars Trek over the internet. Browser-based terrain loading may additionally require access to the USGS/PDS GeoTIFF host and the GeoTIFF.js module CDN. A local HTTP server is preferred over opening HTML files directly.
+```bash
+# Option A: Python (macOS/Linux)
+python3 -m http.server 8080
+
+# Option A: Python (Windows)
+py -m http.server 8080
+
+# Option B: Node.js
+npx serve -l 8080 .
+```
+
+**Option C: VS Code.** Install the *Live Server* extension, open the `Tour-de-Mars` folder, right-click `index.html`, and choose **Open with Live Server**.
+
+Open [http://localhost:8080](http://localhost:8080) (Live Server uses its own port, usually 5500) and select **MarsWalk**, or go straight to [http://localhost:8080/marswalk.html](http://localhost:8080/marswalk.html).
+
+Use a local HTTP server rather than double-clicking the HTML files; opening them directly via `file://` can block scripts and data loading. To stop the server, press `Ctrl + C` in the terminal.
+
+The map imagery loads from NASA Mars Trek over the internet. Browser-based terrain loading may additionally require access to the USGS/PDS GeoTIFF host and the GeoTIFF.js module CDN.
 
 ### 2. Enable verified terrain routing (recommended)
 
-**Already done in this uploaded local archive:** `data/terrain-grid.js` is populated from the supplied Jezero CTX GeoTIFF. On a successful local load, MarsWalk displays **REAL TERRAIN READY** and **Bundled precomputed CTX grid**. You do **not** need to regenerate the grid just to update the interface or README.
+**Already done in this repository:** `data/terrain-grid.js` is populated from the Jezero CTX GeoTIFF. On a successful load, MarsWalk displays **REAL TERRAIN READY** and **Bundled precomputed CTX grid**. You do **not** need to regenerate the grid just to run the project.
 
-To **rebuild or audit the grid**, use the original Jezero CTX DTM and the included processing script:
+To **rebuild or audit the grid**, use the original Jezero CTX DTM and the included processing script.
 
 Install the preprocessing dependencies:
 
@@ -104,15 +131,15 @@ Install the preprocessing dependencies:
 python -m pip install -r requirements-terrain.txt
 ```
 
-Download the official [Jezero CTX DTM GeoTIFF](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif) if you do not already have it. In this local archive, the input is named `JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tiff`. From the site directory, run:
+Download the official [Jezero CTX DTM GeoTIFF](https://planetarymaps.usgs.gov/mosaic/mars2020_trn/CTX/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif) if you do not already have it (it may be saved as `.tif` or `.tiff`), then run from the repository root (`Tour-de-Mars/`):
 
 ```bash
-python tools/build_terrain.py "JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tiff"
+python tools/build_terrain.py "/path/to/JEZ_ctx_B_soc_008_DTM_MOLAtopography_DeltaGeoid_20m_Eqc_latTs0_lon0.tif"
 ```
 
 This generates/replaces the derived 50 × 50 grid in `data/terrain-grid.js`. **Use only a genuine CTX DTM as input.** The script computes cell statistics from the supplied TIFF rather than inventing synthetic elevation. Verify source provenance, output, and MarsWalk's real-terrain status before presenting the results as CTX-derived.
 
-**For deployment:** Commit `data/terrain-grid.js` (the compact output) to GitHub. Keep the source `.tiff` as a local preprocessing input; **do not commit or deploy it with the static website**. You can preserve it separately for scientific reproducibility.
+**For deployment:** Commit `data/terrain-grid.js` (the compact output). Keep the source GeoTIFF as a local preprocessing input; **do not commit or deploy it with the static website**.
 
 ### 3. Alternative terrain-loading methods
 
@@ -122,17 +149,6 @@ If the build supports them, MarsWalk also provides:
 2. **Load local GeoTIFF:** choose a previously downloaded *official* CTX DTM from disk when cross-origin or range requests prevent online loading.
 
 If terrain loading fails, the orbital map may still render, but **verified terrain-based route calculations should not be claimed**. The Quick Start panel updates its message when the real grid is ready, and its map-only sample remains explicitly labeled as illustrative when data is unavailable.
-
-### 4. Publish the updated local build for global judging
-
-1. Back up your working project folder, and confirm that `data/terrain-grid.js` contains a populated `window.TDM_TERRAIN_GRID` object (not `null`).
-2. Commit the updated `README.md`, `marswalk.html`, `marswalk.js`, and `data/terrain-grid.js`, plus any other intentionally updated site files. **Do not add the raw `.tiff`, `.git` directories from a copied archive, local caches, or `__pycache__`.**
-3. Push to the actual GitHub branch connected to your Vercel production deployment. If production tracks `main`, push the changes to `main`.
-4. Confirm the Vercel deployment completed, then open `https://tour-de-mars.vercel.app/marswalk.html` in a fresh/incognito browser window.
-5. Verify **REAL TERRAIN READY**, **Bundled precomputed CTX grid**, **2,487 passable / 2,500 cells**, and working route planning using **LOAD DEMO EVA → PLAN MARSWALK → COMPARE ALL FOUR**. Inspect the oxygen/walkback report and confirm that the loaded mode is not the illustrative fallback.
-6. Only after successful production verification, use the deployed site and a 30-second-or-shorter demo (or up to seven slides) for global judging.
-
-The local ZIP status **does not prove** what is currently published on Vercel.
 
 ## Project structure
 
@@ -158,7 +174,7 @@ The local ZIP status **does not prove** what is currently published on Vercel.
 └── README.md
 ```
 
-The exact directory layout of the GitHub `main` or `test` branch may differ. Place this README at the repository root, and ensure deployment uses the directory that contains `index.html`.
+The exact directory layout of the GitHub `main` branch may differ slightly from the tree above. The README lives at the repository root, alongside `index.html`.
 
 ## Technologies
 
@@ -186,7 +202,7 @@ The roles above describe the team's areas of work; they are not intended to clai
 
 **OpenAI ChatGPT** was used as a development-assistance tool for research organization, code drafting and review, UI iteration, troubleshooting, documentation, technical explanations, and presentation preparation. Representative requests included reviewing organizer-provided NASA resources, assessing whether the custom map should be replaced by Mars Trek, and designing a more reliable demonstration.
 
-**Anthropic Claude** was also used to assist with presentation and slide preparation. Team members should separately disclose any other AI tools used in final code, imagery, audio, or video. SI-generated visual/audio assets included in global judging materials must be labeled and disclosed according to the submission form requirements.
+**Anthropic Claude** was also used to assist with presentation and slide preparation. Team members should separately disclose any other AI tools used in final code, imagery, audio, or video. AI-generated visual/audio assets included in global judging materials must be labeled and disclosed according to the submission form requirements.
 
 AI assistance was applied to public scientific descriptions, project source code, draft content, and team-provided instructions. **AI outputs are not NASA measurements**, are not independently validated scientific results, and are not used as a live generative-AI route engine.
 
@@ -207,7 +223,7 @@ These papers support the **scientific background in the Field Notes**; they are 
 
 ## Scope, limitations, and roadmap
 
-**Current scope:** a proof-of-concept map and EVA planning application. NASA imagery is authentic, and the supplied local build contains CTX-derived elevation and slope summaries that reproduced from its supplied GeoTIFF. Measured terrain is available only when that grid is actually loaded. Oxygen, pace, science-interest scoring, passability thresholds, and route weights are scenario or heuristic models. The public deployment has not yet been independently verified in this update.
+**Current scope:** a proof-of-concept map and EVA planning application. NASA imagery is authentic, and the bundled terrain grid contains CTX-derived elevation and slope summaries that reproduced from the supplied GeoTIFF. Measured terrain is available only when that grid is actually loaded. Oxygen, pace, science-interest scoring, passability thresholds, and route weights are scenario or heuristic models.
 
 **Potential next steps:**
 
